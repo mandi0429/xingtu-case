@@ -124,13 +124,13 @@
       min-height: 100svh;
       display: flex;
       align-items: center;
-      padding-top: 6rem;
+      padding-top: 0;
       padding-bottom: var(--space-xxl);
     }
     .hero-inner {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 0.7rem;
+      gap: 0;
       padding-top: var(--space-xl);
       margin-top: clamp(2.8rem, 6vw, 4.8rem);
       min-height: 42svh;
@@ -155,7 +155,7 @@
       width: min(980px, 100%);
       display: block;
       border-radius: 18px;
-      margin: 0.6rem auto 0;
+      margin: 1.4rem auto 0;
       box-shadow: 0 14px 36px rgba(24, 24, 24, 0.06);
       opacity: 0;
       animation: fadeUp 0.9s var(--ease) 0.35s forwards;
@@ -232,7 +232,7 @@
       max-width: 100%;
     }
     .hero-desc-team {
-      margin-top: 0.35rem;
+      margin-top: -0.18rem;
       font-size: clamp(0.82rem, 1.05vw, 0.98rem);
       line-height: 1.8;
       letter-spacing: 0.01em;
@@ -1256,8 +1256,8 @@
           <h1 class="hero-headline">
             从AI修图到AI造型室<br>重新定义<em>"变美"</em>
           </h1>
-          <img class="hero-title-image" src="./hero-title-image.png" alt="首页主标题展示图" />
           <p class="hero-desc-team">团队成员：张梦、张峰源 / 黄甜、金泽舟、潘杜若蘅 / 胡荣端 Alex</p>
+          <img class="hero-title-image" src="./hero-title-image.png" alt="首页主标题展示图" />
         </div>
 
         <div class="hero-desc">
@@ -1464,6 +1464,7 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const navigationEntries = performance.getEntriesByType('navigation');
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
+    let headerRevealTimer = null;
     const replayHeroIntro = () => {
       if (prefersReducedMotion) return;
 
@@ -1478,6 +1479,13 @@
         void node.offsetWidth;
         node.style.animation = animation;
       });
+    };
+    const revealHeaderAfterScrollStop = () => {
+      if (!header) return;
+      window.clearTimeout(headerRevealTimer);
+      headerRevealTimer = window.setTimeout(() => {
+        header.classList.remove('is-hidden');
+      }, prefersReducedMotion ? 0 : 180);
     };
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
@@ -1543,7 +1551,10 @@
 
     // ── Header scroll effect ──
     window.addEventListener('scroll', () => {
+      if (!header) return;
       header.classList.toggle('scrolled', window.scrollY > 20);
+      header.classList.add('is-hidden');
+      revealHeaderAfterScrollStop();
     }, { passive: true });
 
 
@@ -1666,7 +1677,7 @@
         } else if (index === activeIndex && stackSections[index + 1]) {
           const nextRect = stackSections[index + 1].getBoundingClientRect();
           const entryStart = window.innerHeight * 2;
-          const retreatStart = window.innerHeight * 0.92;
+          const retreatStart = window.innerHeight * 0.78;
           const retreatEnd = stackActivationOffset;
           const progress = Math.max(0, Math.min(1, (retreatStart - nextRect.top) / (retreatStart - retreatEnd)));
           const retreatOpacity = 1 - progress * 0.88;
