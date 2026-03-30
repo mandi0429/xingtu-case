@@ -90,7 +90,15 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      transition: background var(--dur-normal) var(--ease);
+      transition:
+        background var(--dur-normal) var(--ease),
+        opacity var(--dur-normal) var(--ease),
+        transform var(--dur-normal) var(--ease);
+    }
+    .site-header.is-hidden {
+      opacity: 0;
+      transform: translateY(-18px);
+      pointer-events: none;
     }
     .site-header.scrolled {
       background: rgba(246, 246, 246, 0.85);
@@ -123,30 +131,10 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--space-xl);
+      padding-top: calc(0.75rem + var(--space-xl));
       max-width: 860px;
       margin-inline: auto;
       width: 100%;
-    }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: 0.35rem 0.9rem;
-      border: 1px solid var(--color-subtle);
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      opacity: 0;
-      animation: fadeUp 0.8s var(--ease) 0.1s forwards;
-    }
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #5b9a65;
     }
     .hero-headline {
       font-size: clamp(2.2rem, 5.5vw, 4.2rem);
@@ -206,7 +194,7 @@
     .hero-desc {
       opacity: 0;
       animation: fadeUp 0.9s var(--ease) 0.45s forwards;
-      max-width: 560px;
+      width: min(50vw, 960px);
       margin-inline: auto;
       text-align: left;
     }
@@ -222,14 +210,17 @@
       color: var(--color-muted);
     }
 
-    /* Hero image */
+    /* Hero media */
     .hero-demo {
-      width: 100%;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
       margin-top: var(--space-xxl);
-      border-radius: var(--radius-lg);
+      min-height: 100svh;
+      border-radius: 0;
       overflow: hidden;
-      border: 1px solid var(--color-subtle);
-      background: var(--color-white);
+      border: none;
+      background: var(--color-bg);
       opacity: 0;
       animation: fadeUp 1s var(--ease) 0.6s forwards;
       position: relative;
@@ -238,13 +229,14 @@
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 80px;
-      background: linear-gradient(to top, var(--color-bg), transparent);
+      height: 18svh;
+      background: linear-gradient(to top, var(--color-bg), rgba(246, 246, 246, 0.12) 42%, transparent);
       pointer-events: none;
     }
-    .hero-demo-img {
+    .hero-demo-img,
+    .hero-demo-video {
       width: 100%;
-      height: auto;
+      height: 100svh;
       display: block;
       object-fit: cover;
     }
@@ -801,56 +793,6 @@
     }
     .footer-social a:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
-    /* Cookie banner */
-    .cookie-banner {
-      position: fixed;
-      bottom: 1.5rem;
-      left: 1.5rem;
-      max-width: 320px;
-      background: var(--color-white);
-      border: 1px solid var(--color-subtle);
-      border-radius: var(--radius-lg);
-      padding: 1.2rem;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      transform: translateY(20px);
-      opacity: 0;
-      animation: fadeUp 0.6s var(--ease) 1.5s forwards;
-    }
-    .cookie-text {
-      font-size: 0.78rem;
-      color: var(--color-muted);
-      line-height: 1.5;
-    }
-    .cookie-text a { color: var(--color-primary); border-bottom: 1px solid var(--color-subtle); }
-    .cookie-actions { display: flex; gap: 0.6rem; }
-    .cookie-accept {
-      flex: 1;
-      height: 34px;
-      background: var(--color-primary);
-      color: var(--color-btn-text);
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 500;
-      transition: background var(--dur-normal) var(--ease);
-    }
-    .cookie-accept:hover { background: #3d3d3d; }
-    .cookie-decline {
-      flex: 1;
-      height: 34px;
-      border: 1px solid var(--color-subtle);
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--color-muted);
-      transition: border-color var(--dur-normal) var(--ease), color var(--dur-normal) var(--ease);
-    }
-    .cookie-decline:hover { border-color: var(--color-primary); color: var(--color-primary); }
-    .cookie-banner.hidden { display: none; }
-
     /* ══════════════════════════════════════
        KEYFRAMES
     ══════════════════════════════════════ */
@@ -905,8 +847,7 @@
     <!-- HERO -->
     <section class="hero">
       <div class="container">
-        <div class="hero-inner">
-          <div class="hero-tag">AI-Powered Platform</div>
+        <div class="hero-inner" id="hero-title-section">
           <h1 class="hero-headline">
             从AI修图到AI造型室<br>重新定义<em>"变美"</em>
           </h1>
@@ -916,9 +857,19 @@
           </div>
         </div>
 
-        <!-- Hero Image -->
-        <div class="hero-demo">
-          <img class="hero-demo-img" src="image (5).png" alt="Product showcase" />
+        <!-- Hero Video -->
+        <div class="hero-demo" id="hero-video-section">
+          <video
+            class="hero-demo-video"
+            autoplay
+            muted
+            playsinline
+            preload="metadata"
+            aria-label="产品演示视频"
+          >
+            <source src="hero-video.mp4" type="video/mp4" />
+            <source src="hero-video.mov" type="video/quicktime" />
+          </video>
         </div>
       </div>
     </section>
@@ -1227,19 +1178,59 @@
     </div>
   </footer>
 
-  <!-- Cookie Banner -->
-  <div class="cookie-banner" id="cookie-banner">
-    <p class="cookie-text">We use cookies to improve your experience. By continuing, you agree to our <a href="#">Privacy Policy</a>.</p>
-    <div class="cookie-actions">
-      <button class="cookie-accept" onclick="dismissCookie()">Accept</button>
-      <button class="cookie-decline" onclick="dismissCookie()">Decline</button>
-    </div>
-  </div>
-
   <!-- ══════════ JS ══════════ -->
   <script>
-    // ── Header scroll effect ──
     const header = document.getElementById('site-header');
+    const heroVideoSection = document.getElementById('hero-video-section');
+    const heroTitleSection = document.getElementById('hero-title-section');
+    const heroVideo = document.querySelector('.hero-demo-video');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scrollToElementWithOffset = (element, offset = 0) => {
+      if (!element) return;
+
+      const top = window.scrollY + element.getBoundingClientRect().top + offset;
+      window.scrollTo({
+        top,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+      });
+    };
+
+    // ── Initial focus on hero video ──
+    window.addEventListener('load', () => {
+      if (!heroVideoSection) return;
+
+      header?.classList.add('is-hidden');
+
+      requestAnimationFrame(() => {
+        heroVideoSection.scrollIntoView({
+          block: 'start',
+          behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+      });
+    });
+
+    // ── Scroll back to title after the first full video playback ──
+    if (heroVideo && heroTitleSection) {
+      let hasScrolledBackToTitle = false;
+
+      heroVideo.addEventListener('ended', () => {
+        if (hasScrolledBackToTitle) {
+          heroVideo.currentTime = 0;
+          heroVideo.play().catch(() => {});
+          return;
+        }
+
+        hasScrolledBackToTitle = true;
+        header?.classList.remove('is-hidden');
+        scrollToElementWithOffset(heroTitleSection, -96);
+
+        heroVideo.loop = true;
+        heroVideo.currentTime = 0;
+        heroVideo.play().catch(() => {});
+      });
+    }
+
+    // ── Header scroll effect ──
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
@@ -1285,11 +1276,6 @@
       }, 4000);
     }
     startAuto();
-
-    // ── Cookie banner ──
-    function dismissCookie() {
-      document.getElementById('cookie-banner').classList.add('hidden');
-    }
 
     // ── Perspective text reveal (hero headline) ──
     const headline = document.querySelector('.hero-headline');
