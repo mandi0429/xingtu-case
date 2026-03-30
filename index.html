@@ -84,40 +84,6 @@
     .skip-link:focus { left: 1rem; }
 
     /* ══════════════════════════════════════
-       HEADER / NAV
-    ══════════════════════════════════════ */
-    .site-header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      transition:
-        background var(--dur-normal) var(--ease),
-        opacity var(--dur-normal) var(--ease),
-        transform var(--dur-normal) var(--ease);
-    }
-    .site-header.is-hidden {
-      opacity: 0;
-      transform: translateY(-18px);
-      pointer-events: none;
-    }
-    .site-header.scrolled {
-      background: rgba(246, 246, 246, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--color-subtle);
-    }
-    .nav-svg-wrap {
-      width: 100%;
-      padding: 10px 60px 0;
-      box-sizing: border-box;
-    }
-    .nav-svg-img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* ══════════════════════════════════════
        HERO
     ══════════════════════════════════════ */
     .hero {
@@ -1223,14 +1189,6 @@
 <body>
 
   <a href="#main" class="skip-link">Skip to content</a>
-
-  <!-- ── HEADER ── -->
-  <header class="site-header" id="site-header">
-    <div class="nav-svg-wrap">
-      <img src="nav.svg" alt="导航" class="nav-svg-img" />
-    </div>
-  </header>
-
   <!-- ── MAIN ── -->
   <main id="main">
 
@@ -1449,7 +1407,6 @@
 
   <!-- ══════════ JS ══════════ -->
   <script>
-    const header = document.getElementById('site-header');
     const heroVideoSection = document.getElementById('hero-video-section');
     const heroTitleSection = document.getElementById('hero-title-section');
     const heroVideo = document.querySelector('.hero-demo-video');
@@ -1464,8 +1421,6 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const navigationEntries = performance.getEntriesByType('navigation');
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
-    let headerRevealTimer = null;
-    let isHeroVideoActive = true;
     const replayHeroIntro = () => {
       if (prefersReducedMotion) return;
 
@@ -1480,14 +1435,6 @@
         void node.offsetWidth;
         node.style.animation = animation;
       });
-    };
-    const revealHeaderAfterScrollStop = () => {
-      if (!header) return;
-      if (isHeroVideoActive) return;
-      window.clearTimeout(headerRevealTimer);
-      headerRevealTimer = window.setTimeout(() => {
-        header.classList.remove('is-hidden');
-      }, prefersReducedMotion ? 0 : 180);
     };
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
@@ -1504,8 +1451,6 @@
       if (!heroVideoSection) return;
       if (isHistoryRestore) return;
 
-      header?.classList.add('is-hidden');
-
       requestAnimationFrame(() => {
         heroVideoSection.scrollIntoView({
           block: 'start',
@@ -1521,8 +1466,6 @@
         if (hasScrolledBackToTitle) return;
 
         hasScrolledBackToTitle = true;
-        isHeroVideoActive = false;
-        header?.classList.remove('is-hidden');
         heroVideoSection?.classList.add('is-transitioning');
 
         window.setTimeout(() => {
@@ -1550,26 +1493,7 @@
           triggerScrollBack();
         }
       });
-
-      heroVideo.addEventListener('play', () => {
-        if (!hasScrolledBackToTitle) {
-          isHeroVideoActive = true;
-          header?.classList.add('is-hidden');
-        }
-      });
     }
-
-    // ── Header scroll effect ──
-    window.addEventListener('scroll', () => {
-      if (!header) return;
-      header.classList.toggle('scrolled', window.scrollY > 20);
-      if (isHeroVideoActive) {
-        header.classList.add('is-hidden');
-        return;
-      }
-      header.classList.add('is-hidden');
-      revealHeaderAfterScrollStop();
-    }, { passive: true });
 
 
     // ── Scroll reveal ──
