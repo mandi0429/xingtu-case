@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>查看详情 - 条款追踪</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --color-primary: #282828;
+      --color-bg: #f6f6f6;
+      --color-white: #ffffff;
+      --color-muted: #8e8e8e;
+      --color-subtle: #dedede;
+      --color-green: #5b9a65;
+      --color-red: #c46b6b;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.5rem;
+      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.06);
+      --max-w: 1280px;
+      --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0) 28%),
+        var(--color-bg);
+      color: var(--color-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--container-pad);
+    }
+
+    .page {
+      padding: 2rem 0 5rem;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .back-link,
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      height: 44px;
+      padding: 0 1rem;
+      border: 1px solid var(--color-subtle);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.9rem;
+    }
+
+    .status-chip {
+      color: var(--color-muted);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.4rem, 4vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 42rem;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--color-muted);
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .meta-card,
+    .panel,
+    .timeline-card {
+      border: 1px solid var(--color-subtle);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .meta-card {
+      padding: 1.1rem 1.2rem;
+    }
+
+    .meta-label {
+      display: block;
+      margin-bottom: 0.45rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .meta-value {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-side {
+      padding: 1.4rem;
+    }
+
+    .hero-side h2,
+    .panel h2 {
+      margin: 0 0 0.9rem;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-side ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--color-muted);
+      line-height: 1.9;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .panel {
+      padding: 1.5rem;
+    }
+
+    .version-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .version-item {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(40, 40, 40, 0.08);
+    }
+
+    .version-item:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      width: 58px;
+      height: 58px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: #282828;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+    }
+
+    .version-item.is-legacy .version-badge {
+      background: #ececec;
+      color: var(--color-primary);
+    }
+
+    .version-title {
+      margin: 0 0 0.35rem;
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+
+    .version-meta,
+    .version-body {
+      margin: 0;
+      color: var(--color-muted);
+      line-height: 1.8;
+    }
+
+    .change-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      padding: 0.5rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(91, 154, 101, 0.12);
+      color: var(--color-green);
+    }
+
+    .change-pill.is-revised {
+      background: rgba(196, 107, 107, 0.12);
+      color: var(--color-red);
+    }
+
+    .snapshot-list {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .snapshot-item {
+      padding: 1rem 1.1rem;
+      border-radius: var(--radius-md);
+      background: #fbfbfb;
+      border: 1px solid rgba(40, 40, 40, 0.06);
+    }
+
+    .snapshot-item strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.96rem;
+    }
+
+    .snapshot-item span {
+      color: var(--color-muted);
+      line-height: 1.7;
+    }
+
+    .timeline {
+      margin-top: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .timeline-card {
+      padding: 1.25rem 1.35rem;
+    }
+
+    .timeline-card h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+    }
+
+    .timeline-card p {
+      margin: 0;
+      color: var(--color-muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .version-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="container">
+      <div class="topbar">
+        <a href="./index.html" class="back-link" onclick="if (window.history.length > 1) { event.preventDefault(); window.history.back(); }">返回首页</a>
+        <div class="status-chip">查看详情 / 条款追踪</div>
+      </div>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>一次版本查看，读清条款如何被改写</h1>
+          <p>
+            这个演示页模拟“关键条款版本追踪”场景：用户可以看到当前生效版本、历史修订节点、修改来源，以及每一次文本改动对最终结论造成的影响。目标不是堆叠字段，而是帮助用户快速理解“这条规则为什么是现在这样”。
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-card">
+              <span class="meta-label">当前版本</span>
+              <span class="meta-value">V3 生效中</span>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label">累计修订</span>
+              <span class="meta-value">3 次</span>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label">定位方式</span>
+              <span class="meta-value">按来源回溯</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-side panel">
+          <h2>这个跳转页承接什么</h2>
+          <ul>
+            <li>承接首页第二个模块的“模块演示”按钮。</li>
+            <li>把抽象的“版本追踪”概念变成一个可阅读的完整案例。</li>
+            <li>适合后续继续扩展成真实演示页、录屏页或更细的交互页。</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="content-grid">
+        <section class="panel">
+          <h2>核心条款版本记录</h2>
+          <div class="version-list">
+            <article class="version-item">
+              <div class="version-badge">版本 3</div>
+              <div>
+                <p class="version-title">当前生效版本：每月 28,500 美元</p>
+                <p class="version-meta">2024-01-15 · 第一份修订协议 · 来源 §4.1</p>
+                <p class="version-body">本次修订将月租上调，并同步更新了起算逻辑与执行日期，成为当前系统默认展示的有效值。</p>
+              </div>
+              <span class="change-pill">当前有效</span>
+            </article>
+
+            <article class="version-item is-legacy">
+              <div class="version-badge">版本 2</div>
+              <div>
+                <p class="version-title">历史版本：每月 26,000 美元</p>
+                <p class="version-meta">2023-03-01 · 补充确认函</p>
+                <p class="version-body">这里保留了中间修订值，并能查看本次修订是如何替换原始条款的，便于用户理解变化路径。</p>
+              </div>
+              <span class="change-pill is-revised">已替换</span>
+            </article>
+
+            <article class="version-item is-legacy">
+              <div class="version-badge">版本 1</div>
+              <div>
+                <p class="version-title">初始版本：每月 24,000 美元</p>
+                <p class="version-meta">2022-03-01 · 原始协议</p>
+                <p class="version-body">最早版本仍然被完整保留，支持从当前值反向查看其最初来源，帮助建立可追溯的信任感。</p>
+              </div>
+              <span class="change-pill is-revised">原始值</span>
+            </article>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <h2>关键信息快照</h2>
+          <div class="snapshot-list">
+            <div class="snapshot-item">
+              <strong>当前值</strong>
+              <span>每月 28,500 美元 已作为当前生效值写入摘要层。</span>
+            </div>
+            <div class="snapshot-item">
+              <strong>来源定位</strong>
+              <span>每个版本都能回链到来源文件与条款位置，避免“只看到值，看不到上下文”。</span>
+            </div>
+            <div class="snapshot-item">
+              <strong>变更判断</strong>
+              <span>系统会自动识别“新增”“替换”“废弃”等状态，降低人工比对成本。</span>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-card">
+              <h3>01 / 快速定位当前值</h3>
+              <p>先回答“现在到底生效的是哪一版”，避免用户在多个修订里来回翻找。</p>
+            </div>
+            <div class="timeline-card">
+              <h3>02 / 展示变更链路</h3>
+              <p>再展示从原始文本到当前版本的演进路径，降低理解成本。</p>
+            </div>
+            <div class="timeline-card">
+              <h3>03 / 给出来源依据</h3>
+              <p>最后给每一次变更附上来源与节点信息，强化信息可信度。</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Datum — AI-Powered Lease Abstraction</title>
+  <title>醒图案例展示页</title>
   <style>
     /* ─── FONT IMPORT (Google Fonts as PPNeue fallback) ─── */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -431,6 +431,76 @@
       display: flex;
       flex-direction: column;
     }
+    .feature-visual-auto {
+      aspect-ratio: 16 / 9;
+      width: 112%;
+      max-width: none;
+      margin-left: -12%;
+      height: auto;
+    }
+    .feature-visual.is-zoomable {
+      cursor: zoom-in;
+    }
+    .feature-visual-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .feature-visual-image-natural {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: center center;
+    }
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.72);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .image-lightbox.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .image-lightbox-dialog {
+      position: relative;
+      max-width: min(92vw, 1440px);
+      max-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-lightbox img {
+      display: block;
+      max-width: 100%;
+      max-height: 88vh;
+      border-radius: 1rem;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+      background: #fff;
+    }
+    .image-lightbox-close {
+      position: absolute;
+      top: -0.9rem;
+      right: -0.9rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(30, 30, 30, 0.9);
+      color: #fff;
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
 
     /* Lease abstraction mockup */
     .mockup-abstraction {
@@ -837,7 +907,7 @@
   <!-- ── HEADER ── -->
   <header class="site-header" id="site-header">
     <div class="nav-svg-wrap">
-      <img src="nav.svg" alt="Navigation" class="nav-svg-img" />
+      <img src="nav.svg" alt="导航" class="nav-svg-img" />
     </div>
   </header>
 
@@ -874,110 +944,67 @@
       </div>
     </section>
 
-    <!-- ── FEATURE 1: Lease Abstraction ── -->
+    <!-- ── FEATURE 1 ── -->
     <section class="feature-section">
       <div class="container">
         <div class="feature-layout">
           <div class="feature-text reveal">
-            <div class="section-label">Lease Abstraction</div>
-            <h2 class="section-heading">Your most important document, decoded</h2>
-            <p class="section-body">Datum's AI-powered lease abstraction tool empowers you to understand your lease with depth, speed, and accuracy</p>
-            <a href="#" class="demo-link">
-              Abstraction Demo
+            <div class="section-label">01</div>
+            <h2 class="section-heading">从修图工具走向对话式美学服务</h2>
+            <p class="section-body">围绕“智能美学服务”的新定位，对原有能力进行重组，让用户不再从功能入口出发，而是从穿搭、妆造与个人风格需求自然进入完整体验。</p>
+            <a href="./styling-demo.html" class="demo-link">
+              查看详情
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
                 <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
           </div>
-          <div class="feature-visual reveal reveal-delay-2">
-            <div class="mockup-abstraction">
-              <div class="mockup-header">
-                <span class="mockup-title">Lease Terms</span>
-                <span class="mockup-chip">47 extracted</span>
-              </div>
-              <div class="mockup-rows">
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Base Rent</span>
-                  <span class="mockup-row-val">$28,500 / month</span>
-                  <span class="mockup-source">§4.1</span>
-                </div>
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Lease Term</span>
-                  <span class="mockup-row-val">10 Years</span>
-                  <span class="mockup-source">§2.1</span>
-                </div>
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Renewal Options</span>
-                  <span class="mockup-row-val">2 × 5-Year Options</span>
-                  <span class="mockup-source">§14.2</span>
-                </div>
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Radius Restriction</span>
-                  <span class="mockup-row-val">5-mile radius</span>
-                  <span class="mockup-source">§18.4</span>
-                </div>
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Exclusivity Clause</span>
-                  <span class="mockup-row-val">Category exclusive</span>
-                  <span class="mockup-source">§19.1</span>
-                </div>
-                <div class="mockup-row">
-                  <span class="mockup-row-label">Insurance Req.</span>
-                  <span class="mockup-row-val">$2M General Liability</span>
-                  <span class="mockup-source">§22.3</span>
-                </div>
-              </div>
-            </div>
+          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-demo-v2.png" alt="AI 造型室重构模块展示图" />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── FEATURE 2: Audit Trail ── -->
+    <!-- ── FEATURE 2 ── -->
     <section class="feature-section">
       <div class="container">
-        <div class="feature-layout reverse">
+          <div class="feature-layout reverse">
           <div class="feature-text reveal">
-            <div class="section-label">A traceable audit trail for every lease term</div>
-            <h2 class="section-heading">Track Amended or Altered Terms</h2>
-            <p class="section-body">See the current data points in effect alongside every version that came before — all linked to the sources</p>
-            <a href="#" class="demo-link">
-              Audit Demo
+            <div class="section-label">02</div>
+            <h2 class="section-heading">审美服务升级：从单点特效到系统化造型能力</h2>
+            <p class="section-body">围绕用户“变美”需求，将原有以滤镜与单点特效为核心的能力，升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建可被AI理解与调用的知识体系，并结合生成能力输出成套造型方案，实现从“单一效果叠加”到“整体风格构建”的转变，让用户不仅获得更好看的结果，也获得可理解、可复用的美学决策能力。</p>
+            <a href="./audit-demo.html" class="demo-link">
+              查看详情
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
                 <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
           </div>
-          <div class="feature-visual reveal reveal-delay-2">
-            <div class="mockup-audit">
-              <div class="mockup-header" style="padding-bottom:0.8rem; border-bottom:1px solid var(--color-subtle); margin-bottom:0.4rem;">
-                <span class="mockup-title">Base Rent — Version History</span>
-                <span class="mockup-chip">3 versions</span>
-              </div>
-              <div class="audit-entry">
-                <div class="audit-dot current">3</div>
-                <div class="audit-info">
-                  <div class="audit-label">Current — $28,500 / month</div>
-                  <div class="audit-date">Amended Jan 15, 2024 · First Amendment</div>
-                  <div class="audit-change"><ins>$28,500 / month</ins></div>
-                </div>
-              </div>
-              <div class="audit-entry">
-                <div class="audit-dot">2</div>
-                <div class="audit-info">
-                  <div class="audit-label">$26,000 / month</div>
-                  <div class="audit-date">Amended Mar 1, 2023 · Letter Agreement</div>
-                  <div class="audit-change"><del>$24,000</del> <ins>$26,000 / month</ins></div>
-                </div>
-              </div>
-              <div class="audit-entry">
-                <div class="audit-dot">1</div>
-                <div class="audit-info">
-                  <div class="audit-label">$24,000 / month</div>
-                  <div class="audit-date">Original · March 1, 2022 · §4.1</div>
-                </div>
-              </div>
-            </div>
+          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-two-demo.png" alt="审美服务升级模块展示图" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEATURE 3 ── -->
+    <section class="feature-section">
+      <div class="container">
+        <div class="feature-layout">
+          <div class="feature-text reveal">
+            <div class="section-label">03</div>
+            <h2 class="section-heading">全球化表达：从单一审美到多文化个性档案</h2>
+            <p class="section-body">面向不同文化语境下的审美差异，构建具备本地化表达能力的个性档案体系，将统一的AI美学能力映射为多元文化可理解的风格语言。在国内以「金木水火土」等东方审美体系进行气质表达，在海外则以「宝石体系」等更具象的风格标签进行传达，使用户能够在各自文化语境中建立清晰的美学身份认知，并提升内容表达与社交传播的适配性，实现从单一审美标准到多文化审美表达的能力升级。</p>
+            <a href="./styling-demo.html" class="demo-link">
+              查看详情
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-demo.png" alt="AI 造型室重构模块展示图" />
           </div>
         </div>
       </div>
@@ -987,87 +1014,76 @@
     <section class="feature-section">
       <div class="container">
         <div class="feature-double">
-          <!-- Ask Datum -->
+          <!-- 模块 3 -->
           <div class="feature-card reveal">
-            <div class="feature-card-visual">
-              <div style="display:flex;flex-direction:column;gap:0.6rem;flex:1">
-                <div class="chat-bubble user">What are the radius restrictions and exclusivity clauses?</div>
-                <div class="chat-bubble ai">Based on §18.4 and §19.1, this lease includes a 5-mile radius restriction and a category exclusivity clause preventing the landlord from leasing to direct competitors within the shopping center.</div>
-                <div class="chat-input-row">
-                  <span class="chat-input-text">Ask about co-tenancy terms...</span>
-                  <div class="chat-send-btn">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <path d="M1 5h8M5 1l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
+            <div class="feature-card-visual is-zoomable" style="padding:0;overflow:hidden;">
+              <img class="feature-visual-image" src="./feature-one-demo.png" alt="AI 造型室重构模块展示图" />
             </div>
             <div class="feature-card-text">
-              <div class="section-label">Ask Datum</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">Radius restrictions, exclusivity clauses, co-tenancy terms—handled</h3>
-              <p class="section-body" style="font-size:0.9rem">Easily query your leases with our integrated Datum Analyst</p>
-              <a href="#" class="demo-link" style="margin-top:var(--space-md)">
-                Analyst Demo
+              <div class="section-label">04</div>
+              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">全球化表达：从单一审美到多文化个性档案</h3>
+              <p class="section-body" style="font-size:0.9rem">面向不同文化语境下的审美差异，构建具备本地化表达能力的个性档案体系，将统一的AI美学能力映射为多元文化可理解的风格语言。在国内以「金木水火土」等东方审美体系进行气质表达，在海外则以「宝石体系」等更具象的风格标签进行传达，使用户能够在各自文化语境中建立清晰的美学身份认知，并提升内容表达与社交传播的适配性，实现从单一审美标准到多文化审美表达的能力升级。</p>
+              <a href="./styling-demo.html" class="demo-link" style="margin-top:var(--space-md)">
+                查看详情
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
             </div>
           </div>
 
-          <!-- Data Tables -->
+          <!-- 模块 4 -->
           <div class="feature-card reveal reveal-delay-2">
             <div class="feature-card-visual" style="padding:0;overflow:hidden;">
               <div style="padding:0.8rem 0 0; overflow-x:auto;">
                 <table class="table-mock">
                   <thead>
                     <tr>
-                      <th>Unit</th>
-                      <th>Start Date</th>
-                      <th>Renewal Opts</th>
-                      <th>Insurance</th>
+                      <th>单品</th>
+                      <th>分类</th>
+                      <th>场景</th>
+                      <th>状态</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Suite 101</td>
-                      <td>Mar 1, 2022</td>
-                      <td><span class="table-tag">2×5yr</span></td>
-                      <td>$2M</td>
+                      <td>米色短风衣</td>
+                      <td>外套</td>
+                      <td><span class="table-tag">通勤</span></td>
+                      <td>已收藏</td>
                     </tr>
                     <tr>
-                      <td>Suite 204</td>
-                      <td>Jun 1, 2021</td>
-                      <td><span class="table-tag">1×3yr</span></td>
-                      <td>$1M</td>
+                      <td>黑色长款大衣</td>
+                      <td>外套</td>
+                      <td><span class="table-tag">正式</span></td>
+                      <td>待搭配</td>
                     </tr>
                     <tr>
-                      <td>Unit B-12</td>
-                      <td>Jan 1, 2023</td>
-                      <td><span class="table-tag">3×5yr</span></td>
-                      <td>$3M</td>
+                      <td>白色针织上衣</td>
+                      <td>上装</td>
+                      <td><span class="table-tag">日常</span></td>
+                      <td>高频使用</td>
                     </tr>
                     <tr>
-                      <td>Pad A</td>
-                      <td>Sep 1, 2020</td>
-                      <td><span class="table-tag">2×10yr</span></td>
-                      <td>$5M</td>
+                      <td>浅卡其半裙</td>
+                      <td>下装</td>
+                      <td><span class="table-tag">约会</span></td>
+                      <td>已入选</td>
                     </tr>
                     <tr>
-                      <td>Suite 310</td>
-                      <td>Apr 1, 2024</td>
-                      <td><span class="table-tag">1×5yr</span></td>
-                      <td>$2M</td>
+                      <td>棕色乐福鞋</td>
+                      <td>鞋履</td>
+                      <td><span class="table-tag">轻商务</span></td>
+                      <td>推荐</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="feature-card-text">
-              <div class="section-label">Build Tables with Your Lease Data</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">Start Date, Renewal Options, Insurance Requirements</h3>
-              <p class="section-body" style="font-size:0.9rem">Use Tagged Data columns to aggregate critical lease information across multiple units</p>
+              <div class="section-label">05</div>
+              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">把衣橱、偏好与场景信息整理成可调用的个人美学资产</h3>
+              <p class="section-body" style="font-size:0.9rem">用结构化方式管理单品、场景和风格标签，让每次推荐都能更贴近个人状态。</p>
               <a href="#" class="demo-link" style="margin-top:var(--space-md)">
-                Table Demo
+                查看详情
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
             </div>
@@ -1076,35 +1092,35 @@
       </div>
     </section>
 
-    <!-- ── VIDEO CAROUSEL ── -->
+    <!-- ── 轮播展示 ── -->
     <section class="video-section">
       <div class="container">
         <div class="video-section-inner">
-          <!-- Titles -->
+          <!-- 标题 -->
           <div class="video-titles" id="video-titles">
             <div class="video-title-item active" data-index="0">
               <div class="v-num">01</div>
-              <div class="v-title">Work Efficiently and Effectively</div>
+              <div class="v-title">从推荐到结果的闭环体验</div>
               <div class="v-bar"></div>
             </div>
             <div class="video-title-item" data-index="1">
               <div class="v-num">02</div>
-              <div class="v-title">Operate your Portfolio</div>
+              <div class="v-title">多场景风格生成</div>
               <div class="v-bar"></div>
             </div>
             <div class="video-title-item" data-index="2">
               <div class="v-num">03</div>
-              <div class="v-title">Understand the Underlying Structure</div>
+              <div class="v-title">个人档案驱动推荐</div>
               <div class="v-bar"></div>
             </div>
             <div class="video-title-item" data-index="3">
               <div class="v-num">04</div>
-              <div class="v-title">Assess the Terms of a Potential Acquisition</div>
+              <div class="v-title">完整妆造与穿搭联动</div>
               <div class="v-bar"></div>
             </div>
           </div>
 
-          <!-- Video display -->
+          <!-- 视频展示 -->
           <div class="video-display reveal">
             <div class="video-panel active" data-panel="0">
               <div class="video-placeholder">
@@ -1113,7 +1129,7 @@
                     <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <span class="video-panel-label">Work Efficiently and Effectively</span>
+                <span class="video-panel-label">从推荐到结果的闭环体验</span>
               </div>
             </div>
             <div class="video-panel" data-panel="1">
@@ -1123,7 +1139,7 @@
                     <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <span class="video-panel-label">Operate your Portfolio</span>
+                <span class="video-panel-label">多场景风格生成</span>
               </div>
             </div>
             <div class="video-panel" data-panel="2">
@@ -1133,7 +1149,7 @@
                     <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <span class="video-panel-label">Understand the Underlying Structure</span>
+                <span class="video-panel-label">个人档案驱动推荐</span>
               </div>
             </div>
             <div class="video-panel" data-panel="3">
@@ -1143,7 +1159,7 @@
                     <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <span class="video-panel-label">Assess the Terms of a Potential Acquisition</span>
+                <span class="video-panel-label">完整妆造与穿搭联动</span>
               </div>
             </div>
           </div>
@@ -1158,13 +1174,13 @@
     <div class="container">
       <div class="footer-inner">
         <div class="footer-left">
-          <div class="footer-logo">Datum</div>
-          <div class="footer-copy">©2026 Datum Technologies Corp All Rights Reserved</div>
+          <div class="footer-logo">醒图案例</div>
+          <div class="footer-copy">©2026 醒图项目案例展示页</div>
         </div>
         <div class="footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Contact Us</a>
+          <a href="#">隐私政策</a>
+          <a href="#">服务条款</a>
+          <a href="#">联系我们</a>
         </div>
         <div class="footer-social">
           <a href="https://www.linkedin.com/company/datumtechnologiescorp/" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -1178,13 +1194,25 @@
     </div>
   </footer>
 
+  <div class="image-lightbox" id="image-lightbox" aria-hidden="true">
+    <div class="image-lightbox-dialog" role="dialog" aria-modal="true" aria-label="图片预览">
+      <button class="image-lightbox-close" id="image-lightbox-close" type="button" aria-label="关闭预览">×</button>
+      <img id="image-lightbox-image" src="" alt="" />
+    </div>
+  </div>
+
   <!-- ══════════ JS ══════════ -->
   <script>
     const header = document.getElementById('site-header');
     const heroVideoSection = document.getElementById('hero-video-section');
     const heroTitleSection = document.getElementById('hero-title-section');
     const heroVideo = document.querySelector('.hero-demo-video');
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('image-lightbox-image');
+    const lightboxClose = document.getElementById('image-lightbox-close');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const navigationEntries = performance.getEntriesByType('navigation');
+    const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
 
@@ -1198,6 +1226,7 @@
     // ── Initial focus on hero video ──
     window.addEventListener('load', () => {
       if (!heroVideoSection) return;
+      if (isHistoryRestore) return;
 
       header?.classList.add('is-hidden');
 
@@ -1247,6 +1276,40 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => revealObserver.observe(el));
+
+    // ── Image preview ──
+    const zoomableImages = Array.from(document.querySelectorAll('.is-zoomable img'));
+    const openLightbox = (image) => {
+      if (!lightbox || !lightboxImage || !image) return;
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || '';
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeLightbox = () => {
+      if (!lightbox || !lightboxImage) return;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      document.body.style.overflow = '';
+    };
+
+    zoomableImages.forEach((image) => {
+      image.addEventListener('click', () => openLightbox(image));
+    });
+
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox?.classList.contains('is-open')) {
+        closeLightbox();
+      }
+    });
 
     // ── Video carousel ──
     const titleItems = document.querySelectorAll('.video-title-item');
