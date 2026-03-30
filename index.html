@@ -1465,6 +1465,7 @@
     const navigationEntries = performance.getEntriesByType('navigation');
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
     let headerRevealTimer = null;
+    let isHeroVideoActive = true;
     const replayHeroIntro = () => {
       if (prefersReducedMotion) return;
 
@@ -1482,6 +1483,7 @@
     };
     const revealHeaderAfterScrollStop = () => {
       if (!header) return;
+      if (isHeroVideoActive) return;
       window.clearTimeout(headerRevealTimer);
       headerRevealTimer = window.setTimeout(() => {
         header.classList.remove('is-hidden');
@@ -1519,6 +1521,7 @@
         if (hasScrolledBackToTitle) return;
 
         hasScrolledBackToTitle = true;
+        isHeroVideoActive = false;
         header?.classList.remove('is-hidden');
         heroVideoSection?.classList.add('is-transitioning');
 
@@ -1547,12 +1550,23 @@
           triggerScrollBack();
         }
       });
+
+      heroVideo.addEventListener('play', () => {
+        if (!hasScrolledBackToTitle) {
+          isHeroVideoActive = true;
+          header?.classList.add('is-hidden');
+        }
+      });
     }
 
     // ── Header scroll effect ──
     window.addEventListener('scroll', () => {
       if (!header) return;
       header.classList.toggle('scrolled', window.scrollY > 20);
+      if (isHeroVideoActive) {
+        header.classList.add('is-hidden');
+        return;
+      }
       header.classList.add('is-hidden');
       revealHeaderAfterScrollStop();
     }, { passive: true });
