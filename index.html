@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>醒图案例展示页</title>
   <style>
-    /* ─── FONT IMPORT (Google Fonts as PPNeue fallback) ─── */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    /* ─── FONT IMPORT ─── */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
 
     /* ─── DESIGN TOKENS ─── */
     :root {
       --color-primary: #282828;
-      --color-bg: #F6F6F6;
+      --color-bg: #FFFFFF;
       --color-white: #FFFFFF;
       --color-muted: #9C9C9C;
       --color-subtle: #DEDEDE;
       --color-btn-text: #ECF0EF;
       --color-overlay: rgba(170, 166, 166, 0.3);
 
-      --font-heading: 'Inter', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --font-heading: 'Noto Serif SC', serif;
+      --font-body: 'Noto Serif SC', serif;
       --font-mono: 'JetBrains Mono', monospace;
 
       --radius-sm: 0.4rem;
@@ -149,7 +149,7 @@
     }
     .hero-headline em {
       font-style: normal;
-      color: var(--color-muted);
+      color: #ADF01D;
     }
     .hero-actions {
       display: flex;
@@ -216,7 +216,8 @@
       margin-left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw);
       margin-top: var(--space-xxl);
-      min-height: 100svh;
+      aspect-ratio: 2560 / 1440;
+      min-height: 0;
       border-radius: 0;
       overflow: hidden;
       border: none;
@@ -224,6 +225,12 @@
       opacity: 0;
       animation: fadeUp 1s var(--ease) 0.6s forwards;
       position: relative;
+      transition: opacity 0.55s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: center top;
+    }
+    .hero-demo.is-transitioning {
+      opacity: 0.28;
+      transform: scale(0.985);
     }
     .hero-demo::after {
       content: '';
@@ -236,9 +243,10 @@
     .hero-demo-img,
     .hero-demo-video {
       width: 100%;
-      height: 100svh;
+      height: auto;
       display: block;
-      object-fit: cover;
+      aspect-ratio: 2560 / 1440;
+      object-fit: contain;
     }
     .demo-bar {
       display: flex;
@@ -355,33 +363,48 @@
       padding: var(--space-xxl) 0;
     }
     .section-label {
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--color-muted);
-      margin-bottom: var(--space-md);
+      color: var(--color-primary);
+      margin-bottom: 0;
     }
     .section-heading {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-size: clamp(2rem, 3.4vw, 2.85rem);
       font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.025em;
+      line-height: 1.06;
+      letter-spacing: -0.032em;
       color: var(--color-primary);
-      margin-bottom: var(--space-md);
+      margin-bottom: 0.85rem;
+    }
+    .feature-step-section .section-heading {
+      font-size: 18px;
+      line-height: 1.4;
+      letter-spacing: 0;
     }
     .section-body {
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      font-size: clamp(0.98rem, 1.32vw, 1.08rem);
       color: var(--color-muted);
-      line-height: 1.6;
-      max-width: 480px;
+      line-height: 1.72;
+      max-width: 36rem;
+    }
+    .feature-step-section .section-body {
+      font-size: 14px;
+      line-height: 1.7;
+      width: 560px;
+      max-width: 100%;
+    }
+    .feature-step-section .section-body.section-body-wide {
+      width: 760px;
+      max-width: 100%;
     }
     .demo-link {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      margin-top: var(--space-lg);
-      font-size: 0.85rem;
+      margin-top: 1.25rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: var(--color-primary);
       border-bottom: 1px solid var(--color-subtle);
@@ -410,18 +433,98 @@
     /* ══════════════════════════════════════
        FEATURE SECTIONS
     ══════════════════════════════════════ */
+    .feature-steps {
+      padding: var(--space-xxl) 0;
+      border-top: 1px solid var(--color-subtle);
+    }
+    .feature-steps > .container {
+      max-width: calc(100vw - 160px);
+      width: calc(100vw - 160px);
+      padding-inline: 0;
+    }
+    .feature-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
     .feature-section {
       padding: var(--space-xxl) 0;
       border-top: 1px solid var(--color-subtle);
     }
-    .feature-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-xxl);
-      align-items: center;
+    .feature-step-section {
+      padding: 0;
+      border-top: none;
+      position: relative;
+      z-index: 1;
     }
-    .feature-layout.reverse { direction: rtl; }
-    .feature-layout.reverse > * { direction: ltr; }
+    .feature-step-section + .feature-step-section {
+      margin-top: -16vh;
+    }
+    .feature-layout {
+      --stack-shift-y: 0px;
+      --stack-scale: 1;
+      --stack-blur: 0px;
+      --stack-opacity: 1;
+      --stack-saturate: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: clamp(1.7rem, 2.8vw, 2.5rem) clamp(1.7rem, 2.8vw, 2.5rem) 0;
+      border: 1px solid rgba(38, 38, 38, 0.08);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 10px 28px rgba(25, 25, 25, 0.035);
+      overflow: hidden;
+      position: sticky;
+      top: 84px;
+      transition:
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+      isolation: isolate;
+      transform: translateY(var(--stack-shift-y)) scale(var(--stack-scale));
+      filter: blur(var(--stack-blur)) saturate(var(--stack-saturate));
+      opacity: var(--stack-opacity);
+    }
+    .feature-step-section:nth-child(1) .feature-layout { z-index: 1; }
+    .feature-step-section:nth-child(2) .feature-layout { z-index: 2; }
+    .feature-step-section:nth-child(3) .feature-layout { z-index: 3; }
+    .feature-layout.is-stack-behind {
+      --stack-opacity: 0.12;
+      --stack-blur: 18px;
+      --stack-saturate: 0.78;
+      --stack-shift-y: -30px;
+      --stack-scale: 0.928;
+      box-shadow: 0 4px 12px rgba(25, 25, 25, 0.015);
+    }
+    .feature-layout.is-stack-current {
+      --stack-opacity: 1;
+      --stack-blur: 0px;
+      --stack-saturate: 1;
+      --stack-shift-y: 0px;
+      --stack-scale: 1;
+      box-shadow: 0 18px 42px rgba(25, 25, 25, 0.06);
+    }
+    .feature-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      max-width: 42rem;
+      padding-right: 0;
+      padding-bottom: 20px;
+    }
+    .feature-step-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+    .feature-step-line {
+      display: none;
+    }
     .feature-visual {
       border-radius: var(--radius-lg);
       overflow: hidden;
@@ -432,11 +535,17 @@
       flex-direction: column;
     }
     .feature-visual-auto {
-      aspect-ratio: 16 / 9;
-      width: 112%;
+      aspect-ratio: auto;
+      width: calc(100% + clamp(3.4rem, 5.6vw, 5rem));
       max-width: none;
-      margin-left: -12%;
-      height: auto;
+      margin-left: calc(clamp(1.7rem, 2.8vw, 2.5rem) * -1);
+      margin-right: calc(clamp(1.7rem, 2.8vw, 2.5rem) * -1);
+      margin-bottom: 0;
+      flex: 0 0 auto;
+      align-self: stretch;
+      background: #f3f3f1;
+      border: none;
+      border-radius: 0;
     }
     .feature-visual.is-zoomable {
       cursor: zoom-in;
@@ -449,9 +558,9 @@
     }
     .feature-visual-image-natural {
       width: 100%;
-      height: 100%;
+      height: auto;
       max-width: none;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center center;
     }
     .image-lightbox {
@@ -885,8 +994,25 @@
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-toggle { display: flex; }
-      .feature-layout { grid-template-columns: 1fr; }
-      .feature-layout.reverse { direction: ltr; }
+      .hero-demo {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .feature-steps > .container {
+        max-width: 100%;
+        width: 100%;
+        padding-inline: 1.5rem;
+      }
+      .feature-step-section {
+        padding-bottom: 1.5rem;
+      }
+      .feature-layout {
+        min-height: auto;
+        position: static;
+        top: auto;
+      }
+      .feature-step-meta { margin-bottom: var(--space-md); }
       .feature-double { grid-template-columns: 1fr; }
       .demo-content { grid-template-columns: 1fr; }
       .demo-sidebar { display: none; }
@@ -897,6 +1023,16 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       .reveal { opacity: 1; transform: none; }
+      .feature-layout {
+        position: static;
+        top: auto;
+      }
+      .feature-layout.is-stack-behind,
+      .feature-layout.is-stack-current {
+        opacity: 1;
+        filter: none;
+        transform: none;
+      }
     }
   </style>
 </head>
@@ -944,12 +1080,17 @@
       </div>
     </section>
 
-    <!-- ── FEATURE 1 ── -->
-    <section class="feature-section">
+    <section class="feature-steps">
       <div class="container">
-        <div class="feature-layout">
+        <div class="feature-steps-list">
+    <!-- ── FEATURE 1 ── -->
+    <section class="feature-section feature-step-section">
+        <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
-            <div class="section-label">01</div>
+            <div class="feature-step-meta">
+              <div class="section-label">01</div>
+              <div class="feature-step-line" aria-hidden="true"></div>
+            </div>
             <h2 class="section-heading">从修图工具走向对话式美学服务</h2>
             <p class="section-body">围绕“智能美学服务”的新定位，对原有能力进行重组，让用户不再从功能入口出发，而是从穿搭、妆造与个人风格需求自然进入完整体验。</p>
             <a href="./styling-demo.html" class="demo-link">
@@ -960,20 +1101,21 @@
             </a>
           </div>
           <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-demo-v2.png" alt="AI 造型室重构模块展示图" />
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-intent-driven.png" alt="AI 造型室重构模块展示图" />
           </div>
         </div>
-      </div>
     </section>
 
     <!-- ── FEATURE 2 ── -->
-    <section class="feature-section">
-      <div class="container">
-          <div class="feature-layout reverse">
+    <section class="feature-section feature-step-section">
+          <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
-            <div class="section-label">02</div>
+            <div class="feature-step-meta">
+              <div class="section-label">02</div>
+              <div class="feature-step-line" aria-hidden="true"></div>
+            </div>
             <h2 class="section-heading">审美服务升级：从单点特效到系统化造型能力</h2>
-            <p class="section-body">围绕用户“变美”需求，将原有以滤镜与单点特效为核心的能力，升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建可被AI理解与调用的知识体系，并结合生成能力输出成套造型方案，实现从“单一效果叠加”到“整体风格构建”的转变，让用户不仅获得更好看的结果，也获得可理解、可复用的美学决策能力。</p>
+            <p class="section-body">围绕用户“变美”需求，将滤镜与单点特效升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建AI可调用的知识体系，并输出成套造型方案，实现从“效果叠加”到“整体风格构建”的转变，让用户不仅变好看，也具备可理解、可复用的审美决策能力。</p>
             <a href="./audit-demo.html" class="demo-link">
               查看详情
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -982,20 +1124,21 @@
             </a>
           </div>
           <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-two-demo.png" alt="审美服务升级模块展示图" />
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-two-knowledge-base.png" alt="审美服务升级模块展示图" />
           </div>
         </div>
-      </div>
     </section>
 
     <!-- ── FEATURE 3 ── -->
-    <section class="feature-section">
-      <div class="container">
-        <div class="feature-layout">
+    <section class="feature-section feature-step-section">
+        <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
-            <div class="section-label">03</div>
+            <div class="feature-step-meta">
+              <div class="section-label">03</div>
+              <div class="feature-step-line" aria-hidden="true"></div>
+            </div>
             <h2 class="section-heading">全球化表达：从单一审美到多文化个性档案</h2>
-            <p class="section-body">面向不同文化语境下的审美差异，构建具备本地化表达能力的个性档案体系，将统一的AI美学能力映射为多元文化可理解的风格语言。在国内以「金木水火土」等东方审美体系进行气质表达，在海外则以「宝石体系」等更具象的风格标签进行传达，使用户能够在各自文化语境中建立清晰的美学身份认知，并提升内容表达与社交传播的适配性，实现从单一审美标准到多文化审美表达的能力升级。</p>
+            <p class="section-body section-body-wide">基于不同文化语境的审美差异，构建本地化个性档案体系，将统一的AI美学能力转化为多元可理解的风格语言：国内以「金木水火土」表达气质，海外以「宝石体系」强化风格标签，帮助用户建立清晰的美学身份认知，并提升内容表达与社交传播适配性，实现从单一审美到多文化表达的升级。</p>
             <a href="./styling-demo.html" class="demo-link">
               查看详情
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -1004,8 +1147,10 @@
             </a>
           </div>
           <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-demo.png" alt="AI 造型室重构模块展示图" />
+            <img class="feature-visual-image feature-visual-image-natural" src="./feature-three-profile.png" alt="全球化表达模块展示图" />
           </div>
+        </div>
+    </section>
         </div>
       </div>
     </section>
@@ -1021,8 +1166,7 @@
             </div>
             <div class="feature-card-text">
               <div class="section-label">04</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">全球化表达：从单一审美到多文化个性档案</h3>
-              <p class="section-body" style="font-size:0.9rem">面向不同文化语境下的审美差异，构建具备本地化表达能力的个性档案体系，将统一的AI美学能力映射为多元文化可理解的风格语言。在国内以「金木水火土」等东方审美体系进行气质表达，在海外则以「宝石体系」等更具象的风格标签进行传达，使用户能够在各自文化语境中建立清晰的美学身份认知，并提升内容表达与社交传播的适配性，实现从单一审美标准到多文化审美表达的能力升级。</p>
+              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">AI造型室懂美更懂你</h3>
               <a href="./styling-demo.html" class="demo-link" style="margin-top:var(--space-md)">
                 查看详情
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1092,81 +1236,6 @@
       </div>
     </section>
 
-    <!-- ── 轮播展示 ── -->
-    <section class="video-section">
-      <div class="container">
-        <div class="video-section-inner">
-          <!-- 标题 -->
-          <div class="video-titles" id="video-titles">
-            <div class="video-title-item active" data-index="0">
-              <div class="v-num">01</div>
-              <div class="v-title">从推荐到结果的闭环体验</div>
-              <div class="v-bar"></div>
-            </div>
-            <div class="video-title-item" data-index="1">
-              <div class="v-num">02</div>
-              <div class="v-title">多场景风格生成</div>
-              <div class="v-bar"></div>
-            </div>
-            <div class="video-title-item" data-index="2">
-              <div class="v-num">03</div>
-              <div class="v-title">个人档案驱动推荐</div>
-              <div class="v-bar"></div>
-            </div>
-            <div class="video-title-item" data-index="3">
-              <div class="v-num">04</div>
-              <div class="v-title">完整妆造与穿搭联动</div>
-              <div class="v-bar"></div>
-            </div>
-          </div>
-
-          <!-- 视频展示 -->
-          <div class="video-display reveal">
-            <div class="video-panel active" data-panel="0">
-              <div class="video-placeholder">
-                <div class="video-play-btn">
-                  <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                    <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <span class="video-panel-label">从推荐到结果的闭环体验</span>
-              </div>
-            </div>
-            <div class="video-panel" data-panel="1">
-              <div class="video-placeholder">
-                <div class="video-play-btn">
-                  <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                    <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <span class="video-panel-label">多场景风格生成</span>
-              </div>
-            </div>
-            <div class="video-panel" data-panel="2">
-              <div class="video-placeholder">
-                <div class="video-play-btn">
-                  <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                    <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <span class="video-panel-label">个人档案驱动推荐</span>
-              </div>
-            </div>
-            <div class="video-panel" data-panel="3">
-              <div class="video-placeholder">
-                <div class="video-play-btn">
-                  <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-                    <path d="M1 1l16 9L1 19V1z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <span class="video-panel-label">完整妆造与穿搭联动</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <!-- ── FOOTER ── -->
@@ -1207,12 +1276,29 @@
     const heroVideoSection = document.getElementById('hero-video-section');
     const heroTitleSection = document.getElementById('hero-title-section');
     const heroVideo = document.querySelector('.hero-demo-video');
+    const heroHeadline = document.querySelector('.hero-headline');
+    const heroDesc = document.querySelector('.hero-desc');
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('image-lightbox-image');
     const lightboxClose = document.getElementById('image-lightbox-close');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const navigationEntries = performance.getEntriesByType('navigation');
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
+    const replayHeroIntro = () => {
+      if (prefersReducedMotion) return;
+
+      const animatedNodes = [
+        [heroHeadline, 'fadeUp 0.9s var(--ease) 0.25s forwards'],
+        [heroDesc, 'fadeUp 0.9s var(--ease) 0.45s forwards']
+      ];
+
+      animatedNodes.forEach(([node, animation]) => {
+        if (!node) return;
+        node.style.animation = 'none';
+        void node.offsetWidth;
+        node.style.animation = animation;
+      });
+    };
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
 
@@ -1238,24 +1324,40 @@
       });
     });
 
-    // ── Scroll back to title after the first full video playback ──
+    // ── Scroll back to title after 5 seconds of the first playback ──
     if (heroVideo && heroTitleSection) {
       let hasScrolledBackToTitle = false;
-
-      heroVideo.addEventListener('ended', () => {
-        if (hasScrolledBackToTitle) {
-          heroVideo.currentTime = 0;
-          heroVideo.play().catch(() => {});
-          return;
-        }
+      const triggerScrollBack = () => {
+        if (hasScrolledBackToTitle) return;
 
         hasScrolledBackToTitle = true;
         header?.classList.remove('is-hidden');
-        scrollToElementWithOffset(heroTitleSection, -96);
+        heroVideoSection?.classList.add('is-transitioning');
 
-        heroVideo.loop = true;
-        heroVideo.currentTime = 0;
-        heroVideo.play().catch(() => {});
+        window.setTimeout(() => {
+          replayHeroIntro();
+          scrollToElementWithOffset(heroTitleSection, -96);
+        }, prefersReducedMotion ? 0 : 180);
+
+        window.setTimeout(() => {
+          heroVideo.loop = true;
+          heroVideo.currentTime = 0;
+          heroVideo.play().catch(() => {});
+          heroVideoSection?.classList.remove('is-transitioning');
+        }, prefersReducedMotion ? 0 : 760);
+      };
+
+      heroVideo.addEventListener('timeupdate', () => {
+        if (hasScrolledBackToTitle) return;
+        if (heroVideo.currentTime >= 5) {
+          triggerScrollBack();
+        }
+      });
+
+      heroVideo.addEventListener('ended', () => {
+        if (!hasScrolledBackToTitle) {
+          triggerScrollBack();
+        }
       });
     }
 
@@ -1299,6 +1401,81 @@
       image.addEventListener('click', () => openLightbox(image));
     });
 
+    // ── Scroll stacking for the first three modules ──
+    const stackSections = Array.from(document.querySelectorAll('.feature-step-section'));
+    const stackCards = stackSections.map((section) => section.querySelector('.feature-layout'));
+    const updateStackedCards = () => {
+      if (prefersReducedMotion || window.innerWidth <= 768) {
+        stackCards.forEach((card) => {
+          card?.classList.remove('is-stack-behind', 'is-stack-current');
+          card?.style.removeProperty('--stack-shift-y');
+          card?.style.removeProperty('--stack-scale');
+          card?.style.removeProperty('--stack-opacity');
+          card?.style.removeProperty('--stack-blur');
+          card?.style.removeProperty('--stack-saturate');
+        });
+        return;
+      }
+
+      const stackActivationOffset = 110;
+      let activeIndex = 0;
+      stackSections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= stackActivationOffset) {
+          activeIndex = index;
+        }
+      });
+
+      stackCards.forEach((card, index) => {
+        if (!card) return;
+        card.classList.toggle('is-stack-current', index === activeIndex);
+        card.classList.toggle('is-stack-behind', index < activeIndex);
+
+        if (index > activeIndex) {
+          const rect = stackSections[index].getBoundingClientRect();
+          const entryStart = window.innerHeight * 2;
+          const entryEnd = stackActivationOffset;
+          const progress = Math.max(0, Math.min(1, (entryStart - rect.top) / (entryStart - entryEnd)));
+          const shiftY = (1 - progress) * 180;
+          const scale = 0.972 + progress * 0.028;
+          const opacity = 0.62 + progress * 0.38;
+
+          card.style.setProperty('--stack-shift-y', `${shiftY}px`);
+          card.style.setProperty('--stack-scale', scale.toFixed(3));
+          card.style.setProperty('--stack-opacity', opacity.toFixed(3));
+          card.style.setProperty('--stack-blur', '0px');
+          card.style.setProperty('--stack-saturate', '1');
+        } else if (index === activeIndex && stackSections[index + 1]) {
+          const nextRect = stackSections[index + 1].getBoundingClientRect();
+          const entryStart = window.innerHeight * 2;
+          const retreatStart = window.innerHeight * 0.92;
+          const retreatEnd = stackActivationOffset;
+          const progress = Math.max(0, Math.min(1, (retreatStart - nextRect.top) / (retreatStart - retreatEnd)));
+          const retreatOpacity = 1 - progress * 0.88;
+          const retreatBlur = progress * 28;
+          const retreatSaturate = 1 - progress * 0.22;
+          const retreatShiftY = progress * -30;
+          const retreatScale = 1 - progress * 0.3;
+
+          card.style.setProperty('--stack-shift-y', `${retreatShiftY}px`);
+          card.style.setProperty('--stack-scale', retreatScale.toFixed(3));
+          card.style.setProperty('--stack-opacity', retreatOpacity.toFixed(3));
+          card.style.setProperty('--stack-blur', `${retreatBlur.toFixed(2)}px`);
+          card.style.setProperty('--stack-saturate', retreatSaturate.toFixed(3));
+        } else {
+          card.style.removeProperty('--stack-shift-y');
+          card.style.removeProperty('--stack-scale');
+          card.style.removeProperty('--stack-opacity');
+          card.style.removeProperty('--stack-blur');
+          card.style.removeProperty('--stack-saturate');
+        }
+      });
+    };
+
+    updateStackedCards();
+    window.addEventListener('scroll', updateStackedCards, { passive: true });
+    window.addEventListener('resize', updateStackedCards);
+
     lightboxClose?.addEventListener('click', closeLightbox);
     lightbox?.addEventListener('click', (event) => {
       if (event.target === lightbox) {
@@ -1310,35 +1487,6 @@
         closeLightbox();
       }
     });
-
-    // ── Video carousel ──
-    const titleItems = document.querySelectorAll('.video-title-item');
-    const panels = document.querySelectorAll('.video-panel');
-    let currentPanel = 0;
-    let autoTimer;
-
-    function switchPanel(index) {
-      titleItems[currentPanel].classList.remove('active');
-      panels[currentPanel].classList.remove('active');
-      currentPanel = index;
-      titleItems[currentPanel].classList.add('active');
-      panels[currentPanel].classList.add('active');
-    }
-
-    titleItems.forEach(item => {
-      item.addEventListener('click', () => {
-        clearInterval(autoTimer);
-        switchPanel(parseInt(item.dataset.index));
-        startAuto();
-      });
-    });
-
-    function startAuto() {
-      autoTimer = setInterval(() => {
-        switchPanel((currentPanel + 1) % panels.length);
-      }, 4000);
-    }
-    startAuto();
 
     // ── Perspective text reveal (hero headline) ──
     const headline = document.querySelector('.hero-headline');
