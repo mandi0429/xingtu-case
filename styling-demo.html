@@ -79,7 +79,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      grid-template-columns: 1fr;
       gap: 2rem;
       align-items: start;
       margin-bottom: 2rem;
@@ -212,6 +212,21 @@
       background: #fbfbfb;
       border: 1px solid rgba(40, 40, 40, 0.06);
     }
+    .side-image-slot {
+      min-height: 240px;
+      padding: 0;
+      border-radius: var(--radius-md);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 248, 248, 0.95)),
+        #fbfbfb;
+      border: 1px solid rgba(40, 40, 40, 0.08);
+      overflow: hidden;
+    }
+    .side-image-slot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
     .tag-row {
       display: flex;
@@ -257,7 +272,7 @@
 
       <section class="hero">
         <div class="hero-copy">
-          <h1>把“功能入口”重写成“需求入口”</h1>
+          <h1>从修图工具走向对话式美学服务</h1>
           <p>
             这个演示页聚焦首页第一个模块所表达的核心命题：产品不再以修图工具集合的方式被理解，而是以用户真实的美学目标为入口，重新组织穿搭、妆造、形象档案与对话式引导，让体验从“编辑器”变成“服务场”。
           </p>
@@ -277,15 +292,6 @@
             </div>
           </div>
         </div>
-
-        <aside class="hero-side">
-          <h2>这个页面承接什么</h2>
-          <ul>
-            <li>承接首页第一个模块的“模块演示”按钮。</li>
-            <li>把抽象的升级方向拆解成可理解的产品结构变化。</li>
-            <li>适合后续继续扩展成流程演示页、设计稿说明页或产品方案页。</li>
-          </ul>
-        </aside>
       </section>
 
       <section class="content-grid">
@@ -313,7 +319,7 @@
         </section>
 
         <aside class="panel">
-          <h2>结构变化快照</h2>
+          <h2>Before/After</h2>
           <div class="side-stack">
             <section class="side-section">
               <h3>旧结构</h3>
@@ -333,6 +339,10 @@
                 <span class="tag">妆造推荐</span>
                 <span class="tag">风格档案</span>
               </div>
+            </section>
+
+            <section class="side-image-slot" aria-label="Before/After 对比图">
+              <img src="./styling-before-after.png" alt="Before 与 After 对比图" />
             </section>
           </div>
         </aside>

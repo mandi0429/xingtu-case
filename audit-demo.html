@@ -81,7 +81,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+      grid-template-columns: 1fr;
       gap: 2rem;
       align-items: start;
       margin-bottom: 2rem;
@@ -155,133 +155,99 @@
       line-height: 1.9;
     }
 
-    .content-grid {
+    .panel {
+      padding: 1.5rem;
+    }
+    .module-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
       gap: 1.5rem;
       margin-top: 2rem;
     }
 
-    .panel {
+    .module-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
+      gap: 1.5rem;
+      align-items: stretch;
       padding: 1.5rem;
+      border: 1px solid var(--color-subtle);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
     }
 
-    .version-list {
-      display: grid;
-      gap: 1rem;
+    .module-copy h2 {
+      margin: 0 0 0.8rem;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
     }
 
-    .version-item {
-      display: grid;
-      grid-template-columns: 58px 1fr auto;
-      gap: 1rem;
-      align-items: start;
-      padding: 1rem 0;
-      border-top: 1px solid rgba(40, 40, 40, 0.08);
-    }
-
-    .version-item:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
-
-    .version-badge {
-      display: inline-flex;
-      width: 58px;
-      height: 58px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      background: #282828;
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      letter-spacing: 0.06em;
-    }
-
-    .version-item.is-legacy .version-badge {
-      background: #ececec;
-      color: var(--color-primary);
-    }
-
-    .version-title {
-      margin: 0 0 0.35rem;
-      font-size: 1.08rem;
-      font-weight: 600;
-    }
-
-    .version-meta,
-    .version-body {
-      margin: 0;
+    .module-copy p {
+      margin: 0 0 1rem;
       color: var(--color-muted);
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
-    .change-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 88px;
-      padding: 0.5rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      background: rgba(91, 154, 101, 0.12);
-      color: var(--color-green);
-    }
-
-    .change-pill.is-revised {
-      background: rgba(196, 107, 107, 0.12);
-      color: var(--color-red);
-    }
-
-    .snapshot-list {
+    .module-points {
       display: grid;
-      gap: 0.9rem;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
     }
 
-    .snapshot-item {
-      padding: 1rem 1.1rem;
+    .module-point {
+      padding: 0.95rem 1rem;
       border-radius: var(--radius-md);
       background: #fbfbfb;
       border: 1px solid rgba(40, 40, 40, 0.06);
     }
 
-    .snapshot-item strong {
+    .module-point strong {
       display: block;
       margin-bottom: 0.35rem;
-      font-size: 0.96rem;
+      font-size: 0.95rem;
     }
 
-    .snapshot-item span {
+    .module-point span {
       color: var(--color-muted);
       line-height: 1.7;
     }
 
-    .timeline {
-      margin-top: 1.5rem;
-      display: grid;
-      gap: 1rem;
+    .module-image-slot {
+      min-height: 320px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(40, 40, 40, 0.18);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 248, 248, 0.95)),
+        #fbfbfb;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.2rem;
     }
 
-    .timeline-card {
-      padding: 1.25rem 1.35rem;
+    .module-image-slot strong {
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
     }
 
-    .timeline-card h3 {
-      margin: 0 0 0.45rem;
-      font-size: 1rem;
-    }
-
-    .timeline-card p {
-      margin: 0;
+    .module-image-slot span {
       color: var(--color-muted);
-      line-height: 1.7;
+      line-height: 1.8;
+    }
+
+    .module-image-mark {
+      align-self: flex-start;
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(91, 154, 101, 0.1);
+      color: var(--color-green);
+      font-size: 0.78rem;
+      font-weight: 600;
     }
 
     @media (max-width: 980px) {
       .hero,
-      .content-grid {
+      .module-block {
         grid-template-columns: 1fr;
       }
 
@@ -296,9 +262,6 @@
         align-items: flex-start;
       }
 
-      .version-item {
-        grid-template-columns: 1fr;
-      }
     }
   </style>
 </head>
@@ -312,7 +275,7 @@
 
       <section class="hero">
         <div class="hero-copy">
-          <h1>一次版本查看，读清条款如何被改写</h1>
+          <h1>审美服务升级：从单点特效到系统化造型能力</h1>
           <p>
             这个演示页模拟“关键条款版本追踪”场景：用户可以看到当前生效版本、历史修订节点、修改来源，以及每一次文本改动对最终结论造成的影响。目标不是堆叠字段，而是帮助用户快速理解“这条规则为什么是现在这样”。
           </p>
@@ -332,85 +295,52 @@
             </div>
           </div>
         </div>
-
-        <aside class="hero-side panel">
-          <h2>这个跳转页承接什么</h2>
-          <ul>
-            <li>承接首页第二个模块的“模块演示”按钮。</li>
-            <li>把抽象的“版本追踪”概念变成一个可阅读的完整案例。</li>
-            <li>适合后续继续扩展成真实演示页、录屏页或更细的交互页。</li>
-          </ul>
-        </aside>
       </section>
 
-      <section class="content-grid">
-        <section class="panel">
-          <h2>核心条款版本记录</h2>
-          <div class="version-list">
-            <article class="version-item">
-              <div class="version-badge">版本 3</div>
-              <div>
-                <p class="version-title">当前生效版本：每月 28,500 美元</p>
-                <p class="version-meta">2024-01-15 · 第一份修订协议 · 来源 §4.1</p>
-                <p class="version-body">本次修订将月租上调，并同步更新了起算逻辑与执行日期，成为当前系统默认展示的有效值。</p>
+      <section class="module-grid">
+        <section class="module-block">
+          <div class="module-copy">
+            <h2>设计侧</h2>
+            <p>这一侧聚焦产品如何通过界面结构、信息层级与风格语言，把“变美需求”转译成更容易理解与操作的体验路径。重点不是单点视觉升级，而是把服务感、信任感和结果感落在具体的页面组织方式上。</p>
+            <div class="module-points">
+              <div class="module-point">
+                <strong>体验目标</strong>
+                <span>让用户更快理解自己可以获得什么，而不是先被功能名称和操作流程劝退。</span>
               </div>
-              <span class="change-pill">当前有效</span>
-            </article>
-
-            <article class="version-item is-legacy">
-              <div class="version-badge">版本 2</div>
-              <div>
-                <p class="version-title">历史版本：每月 26,000 美元</p>
-                <p class="version-meta">2023-03-01 · 补充确认函</p>
-                <p class="version-body">这里保留了中间修订值，并能查看本次修订是如何替换原始条款的，便于用户理解变化路径。</p>
+              <div class="module-point">
+                <strong>设计关注点</strong>
+                <span>信息入口、风格表达、结果承接与路径引导，需要共同构成统一的美学服务体验。</span>
               </div>
-              <span class="change-pill is-revised">已替换</span>
-            </article>
-
-            <article class="version-item is-legacy">
-              <div class="version-badge">版本 1</div>
-              <div>
-                <p class="version-title">初始版本：每月 24,000 美元</p>
-                <p class="version-meta">2022-03-01 · 原始协议</p>
-                <p class="version-body">最早版本仍然被完整保留，支持从当前值反向查看其最初来源，帮助建立可追溯的信任感。</p>
-              </div>
-              <span class="change-pill is-revised">原始值</span>
-            </article>
+            </div>
+          </div>
+          <div class="module-image-slot" aria-label="设计侧图片占位">
+            <strong>设计侧图片位置</strong>
+            <span>这里预留给设计侧相关的页面截图、流程图或布局示意图。</span>
+            <div class="module-image-mark">待替换图片</div>
           </div>
         </section>
 
-        <aside class="panel">
-          <h2>关键信息快照</h2>
-          <div class="snapshot-list">
-            <div class="snapshot-item">
-              <strong>当前值</strong>
-              <span>每月 28,500 美元 已作为当前生效值写入摘要层。</span>
-            </div>
-            <div class="snapshot-item">
-              <strong>来源定位</strong>
-              <span>每个版本都能回链到来源文件与条款位置，避免“只看到值，看不到上下文”。</span>
-            </div>
-            <div class="snapshot-item">
-              <strong>变更判断</strong>
-              <span>系统会自动识别“新增”“替换”“废弃”等状态，降低人工比对成本。</span>
-            </div>
-          </div>
-
-          <div class="timeline">
-            <div class="timeline-card">
-              <h3>01 / 快速定位当前值</h3>
-              <p>先回答“现在到底生效的是哪一版”，避免用户在多个修订里来回翻找。</p>
-            </div>
-            <div class="timeline-card">
-              <h3>02 / 展示变更链路</h3>
-              <p>再展示从原始文本到当前版本的演进路径，降低理解成本。</p>
-            </div>
-            <div class="timeline-card">
-              <h3>03 / 给出来源依据</h3>
-              <p>最后给每一次变更附上来源与节点信息，强化信息可信度。</p>
+        <section class="module-block">
+          <div class="module-copy">
+            <h2>特效侧</h2>
+            <p>这一侧聚焦模型能力与效果输出如何协同工作。它承接滤镜、生成、妆造和风格判断等能力，但不再作为零散特效堆叠出现，而是转化成一个可被理解、可被复用的结果生成系统。</p>
+            <div class="module-points">
+              <div class="module-point">
+                <strong>能力目标</strong>
+                <span>从单个特效叠加走向成套结果输出，让用户获得更完整、更稳定的审美体验。</span>
+              </div>
+              <div class="module-point">
+                <strong>表达方式</strong>
+                <span>把技术能力包装为用户可理解的结果语言，让特效不只是“好看”，而是“有判断、有方向”。</span>
+              </div>
             </div>
           </div>
-        </aside>
+          <div class="module-image-slot" aria-label="特效侧图片占位">
+            <strong>特效侧图片位置</strong>
+            <span>这里预留给特效侧相关的生成结果、能力流程图或效果对比图。</span>
+            <div class="module-image-mark">待替换图片</div>
+          </div>
+        </section>
       </section>
     </div>
   </main>
