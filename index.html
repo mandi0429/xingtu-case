@@ -164,7 +164,7 @@
     .hero-desc {
       opacity: 0;
       animation: fadeUp 0.9s var(--ease) 0.45s forwards;
-      width: min(760px, 100%);
+      width: min(660px, 100%);
       margin: var(--space-xxl) auto 0;
       min-height: 700px;
       display: flex;
@@ -212,6 +212,13 @@
     .hero-desc-body-line {
       display: block;
       text-align: center;
+    }
+    .hero-desc-typed-line {
+      display: block;
+      transition: opacity 0.16s ease;
+    }
+    .hero-desc-typed-line.is-pending {
+      opacity: 0;
     }
     .hero-desc-typed {
       display: inline;
@@ -268,6 +275,14 @@
     }
     .hero-desc-highlight-fill {
       background: #AEF11E;
+      color: #24180a;
+      padding: 0 0.18em;
+      border-radius: 0.2em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .hero-desc-highlight-fill-blue {
+      background: #8AE9FF;
       color: #24180a;
       padding: 0 0.18em;
       border-radius: 0.2em;
@@ -1305,9 +1320,13 @@
           <div class="hero-desc-copy">
             <div class="hero-desc-body hero-desc-body-with-icon">
               <img class="hero-desc-icon" src="./hero-desc-icon.png" alt="" aria-hidden="true" />
-              <span class="hero-desc-body-line"><strong>AI造型室</strong><span class="hero-desc-typed" data-text=" 围绕用户“变美”需求，重构了从修图工具到智能美学服务的体验路径。"> 围绕用户“变美”需求，重构了从修图工具到智能美学服务的体验路径。</span></span>
+              <span class="hero-desc-body-line hero-desc-typed-line">
+                <strong>AI造型室</strong><span class="hero-desc-typed" data-text=" 围绕用户“"> 围绕用户“</span><span class="hero-desc-highlight-fill">变美”需求</span><span class="hero-desc-typed" data-text="，重构了从修图工具到智能美学服务的体验路径。">，重构了从修图工具到智能美学服务的体验路径。</span>
+              </span>
             </div>
-            <p class="hero-desc-body"><span class="hero-desc-typed" data-text="产品从功能入口升级为可持续运行的美学工作流，围绕穿搭、妆造与个人档案形成完整链路。">产品从功能入口升级为可持续运行的美学工作流，围绕穿搭、妆造与个人档案形成完整链路。</span></p>
+            <p class="hero-desc-body hero-desc-typed-line">
+              <span class="hero-desc-typed" data-text="产品从功能入口升级为可持续运行的美学工作流，">产品从功能入口升级为可持续运行的美学工作流，</span><span class="hero-desc-highlight-fill-blue">围绕穿搭、妆造与个人档案</span><span class="hero-desc-typed" data-text="形成完整链路。">形成完整链路。</span>
+            </p>
           </div>
         </div>
       </div>
@@ -1494,6 +1513,7 @@
     const heroVideoSection = document.getElementById('hero-video-section');
     const heroVideo = document.querySelector('.hero-demo-video');
     const heroDesc = document.querySelector('.hero-desc');
+    const heroTypedLines = Array.from(document.querySelectorAll('.hero-desc-typed-line'));
     const heroTypedNodes = Array.from(document.querySelectorAll('.hero-desc-typed'));
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('image-lightbox-image');
@@ -1506,6 +1526,9 @@
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
     let hasTypedHeroDesc = false;
     if (!prefersReducedMotion) {
+      heroTypedLines.forEach((line) => {
+        line.classList.add('is-pending');
+      });
       heroTypedNodes.forEach((node) => {
         node.classList.add('is-pending');
       });
@@ -1515,6 +1538,9 @@
       hasTypedHeroDesc = true;
 
       if (prefersReducedMotion) {
+        heroTypedLines.forEach((line) => {
+          line.classList.remove('is-pending');
+        });
         heroTypedNodes.forEach((node) => {
           node.textContent = node.dataset.text || '';
           node.classList.remove('is-pending');
@@ -1523,13 +1549,20 @@
         return;
       }
 
+      const lineSegments = heroTypedLines.map((line) =>
+        Array.from(line.querySelectorAll('.hero-desc-typed'))
+      );
       let lineIndex = 0;
-      const typeNextLine = () => {
-        const node = heroTypedNodes[lineIndex];
-        if (!node) return;
+      let segmentIndex = 0;
+      const typeNextSegment = () => {
+        const line = heroTypedLines[lineIndex];
+        const segments = lineSegments[lineIndex];
+        const node = segments?.[segmentIndex];
+        if (!line || !node) return;
 
         const fullText = node.dataset.text || '';
         let charIndex = 0;
+        line.classList.remove('is-pending');
         node.textContent = '';
         node.classList.remove('is-pending');
         node.classList.add('is-typing');
@@ -1541,9 +1574,15 @@
             window.setTimeout(tick, 38);
           } else {
             node.classList.remove('is-typing');
-            lineIndex += 1;
-            if (lineIndex < heroTypedNodes.length) {
-              window.setTimeout(typeNextLine, 180);
+            segmentIndex += 1;
+            if (segmentIndex < segments.length) {
+              window.setTimeout(typeNextSegment, 120);
+            } else {
+              lineIndex += 1;
+              segmentIndex = 0;
+              if (lineIndex < lineSegments.length) {
+                window.setTimeout(typeNextSegment, 180);
+              }
             }
           }
         };
@@ -1551,7 +1590,7 @@
         tick();
       };
 
-      typeNextLine();
+      typeNextSegment();
     };
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
