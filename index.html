@@ -165,7 +165,7 @@
       opacity: 0;
       animation: fadeUp 0.9s var(--ease) 0.45s forwards;
       width: min(660px, 100%);
-      margin: var(--space-xxl) auto 0;
+      margin: var(--space-xl) auto 0;
       min-height: 700px;
       display: flex;
       align-items: center;
@@ -212,6 +212,9 @@
     .hero-desc-body-line {
       display: block;
       text-align: center;
+    }
+    .hero-desc-segment.is-pending {
+      opacity: 0;
     }
     .hero-desc-typed-line {
       display: block;
@@ -358,6 +361,87 @@
         opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .hero-demo-objects {
+      position: absolute;
+      left: 50%;
+      bottom: 8.5%;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0;
+      width: min(88vw, 1280px);
+      transform: translateX(-50%) translateY(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .hero-demo-object {
+      position: relative;
+      flex: 0 0 auto;
+      pointer-events: auto;
+      transform: var(--object-transform, none);
+      transform-origin: center bottom;
+      transition:
+        transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      filter: none;
+      will-change: transform;
+    }
+    .hero-demo-object:hover {
+      transform: var(--object-transform, none) translateY(-12px) scale(1.08);
+      filter: none;
+      z-index: 3;
+    }
+    .hero-demo-object img {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    .hero-demo-object.object-jeans {
+      width: 222px;
+      order: 4;
+      --object-transform: rotate(-8deg) translateX(-6px) translateY(-8px);
+      z-index: 5;
+      margin-left: -7%;
+      margin-right: -5%;
+    }
+    .hero-demo-object.object-shoe {
+      width: 324px;
+      order: 1;
+      --object-transform: rotate(-7deg) translateX(-20px) translateY(14px);
+      z-index: 2;
+      margin-left: 0;
+      margin-right: -8%;
+    }
+    .hero-demo-object.object-boot {
+      width: 356px;
+      order: 2;
+      --object-transform: rotate(6deg) translateX(-8px) translateY(-2px);
+      z-index: 4;
+      margin-left: -6%;
+      margin-right: -9%;
+    }
+    .hero-demo-object.object-cap {
+      width: 371px;
+      order: 3;
+      --object-transform: rotate(-6deg) translateX(-6px) translateY(-82px);
+      z-index: 3;
+      margin-left: -6%;
+      margin-right: -8%;
+    }
+    .hero-demo-object.object-cardigan {
+      width: 403px;
+      order: 5;
+      --object-transform: rotate(8deg) translateX(-10px) translateY(14px);
+      z-index: 1;
+      margin-left: -7%;
+    }
     .hero-demo.is-ended .hero-demo-video {
       opacity: 0;
       transform: scale(0.985);
@@ -366,6 +450,10 @@
     .hero-demo.is-ended .hero-demo-image {
       opacity: 1;
       transform: scale(1);
+    }
+    .hero-demo.is-ended .hero-demo-objects {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
     .demo-bar {
       display: flex;
@@ -552,7 +640,7 @@
        FEATURE SECTIONS
     ══════════════════════════════════════ */
     .feature-steps {
-      padding: var(--space-xxl) 0;
+      padding: var(--space-xl) 0 var(--space-xxl);
     }
     .feature-steps > .container {
       max-width: calc((100vw - 160px) * 0.7);
@@ -692,6 +780,9 @@
       object-fit: contain;
       object-position: center center;
       background: #f3f3f1;
+    }
+    .feature-step-section:first-child .feature-visual-auto {
+      margin-bottom: calc(clamp(1.15rem, 1.9vw, 1.5rem) * -1);
     }
     .image-lightbox {
       position: fixed;
@@ -1288,6 +1379,14 @@
         filter: none;
         transform: none;
       }
+      .hero-demo-objects {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+      .hero-demo-object:hover {
+        transform: none;
+        filter: drop-shadow(0 22px 34px rgba(24, 24, 24, 0.08));
+      }
     }
   </style>
 </head>
@@ -1314,6 +1413,13 @@
             <source src="hero-video.mov" type="video/quicktime" />
           </video>
           <img class="hero-demo-image" src="./hero-video-end-image.png" alt="首屏结束展示图" />
+          <div class="hero-demo-objects" aria-hidden="true">
+            <div class="hero-demo-object object-jeans"><img src="./hero-item-jeans.png" alt="" /></div>
+            <div class="hero-demo-object object-shoe"><img src="./hero-item-shoe.png" alt="" /></div>
+            <div class="hero-demo-object object-boot"><img src="./hero-item-boot.png" alt="" /></div>
+            <div class="hero-demo-object object-cap"><img src="./hero-item-cap.png" alt="" /></div>
+            <div class="hero-demo-object object-cardigan"><img src="./hero-item-cardigan.png" alt="" /></div>
+          </div>
         </div>
 
         <div class="hero-desc">
@@ -1321,11 +1427,11 @@
             <div class="hero-desc-body hero-desc-body-with-icon">
               <img class="hero-desc-icon" src="./hero-desc-icon.png" alt="" aria-hidden="true" />
               <span class="hero-desc-body-line hero-desc-typed-line">
-                <strong>AI造型室</strong><span class="hero-desc-typed" data-text=" 围绕用户“"> 围绕用户“</span><span class="hero-desc-highlight-fill">变美”需求</span><span class="hero-desc-typed" data-text="，重构了从修图工具到智能美学服务的体验路径。">，重构了从修图工具到智能美学服务的体验路径。</span>
+                <strong class="hero-desc-segment hero-desc-typed" data-text="AI造型室">AI造型室</strong><span class="hero-desc-segment hero-desc-typed" data-text=" 围绕用户"> 围绕用户</span><span class="hero-desc-segment hero-desc-highlight-fill">“变美”需求</span><span class="hero-desc-segment hero-desc-typed" data-text="，">，</span><br><span class="hero-desc-segment hero-desc-typed" data-text="重构了从修图工具到智能美学服务的体验路径。">重构了从修图工具到智能美学服务的体验路径。</span>
               </span>
             </div>
             <p class="hero-desc-body hero-desc-typed-line">
-              <span class="hero-desc-typed" data-text="产品从功能入口升级为可持续运行的美学工作流，">产品从功能入口升级为可持续运行的美学工作流，</span><span class="hero-desc-highlight-fill-blue">围绕穿搭、妆造与个人档案</span><span class="hero-desc-typed" data-text="形成完整链路。">形成完整链路。</span>
+              <span class="hero-desc-segment hero-desc-typed" data-text="产品从功能入口升级为可持续运行的美学工作流，">产品从功能入口升级为可持续运行的美学工作流，</span><br><span class="hero-desc-segment hero-desc-highlight-fill-blue">围绕穿搭、妆造与个人档案</span><span class="hero-desc-segment hero-desc-typed" data-text="形成完整链路。">形成完整链路。</span>
             </p>
           </div>
         </div>
@@ -1515,6 +1621,7 @@
     const heroDesc = document.querySelector('.hero-desc');
     const heroTypedLines = Array.from(document.querySelectorAll('.hero-desc-typed-line'));
     const heroTypedNodes = Array.from(document.querySelectorAll('.hero-desc-typed'));
+    const heroDescSegments = Array.from(document.querySelectorAll('.hero-desc-segment'));
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('image-lightbox-image');
     const lightboxClose = document.getElementById('image-lightbox-close');
@@ -1529,6 +1636,9 @@
       heroTypedLines.forEach((line) => {
         line.classList.add('is-pending');
       });
+      heroDescSegments.forEach((segment) => {
+        segment.classList.add('is-pending');
+      });
       heroTypedNodes.forEach((node) => {
         node.classList.add('is-pending');
       });
@@ -1541,6 +1651,9 @@
         heroTypedLines.forEach((line) => {
           line.classList.remove('is-pending');
         });
+        heroDescSegments.forEach((segment) => {
+          segment.classList.remove('is-pending');
+        });
         heroTypedNodes.forEach((node) => {
           node.textContent = node.dataset.text || '';
           node.classList.remove('is-pending');
@@ -1550,7 +1663,7 @@
       }
 
       const lineSegments = heroTypedLines.map((line) =>
-        Array.from(line.querySelectorAll('.hero-desc-typed'))
+        Array.from(line.querySelectorAll('.hero-desc-segment'))
       );
       let lineIndex = 0;
       let segmentIndex = 0;
@@ -1560,34 +1673,48 @@
         const node = segments?.[segmentIndex];
         if (!line || !node) return;
 
-        const fullText = node.dataset.text || '';
-        let charIndex = 0;
         line.classList.remove('is-pending');
-        node.textContent = '';
         node.classList.remove('is-pending');
-        node.classList.add('is-typing');
+        if (node.classList.contains('hero-desc-typed')) {
+          const fullText = node.dataset.text || '';
+          let charIndex = 0;
+          node.textContent = '';
+          node.classList.add('is-typing');
 
-        const tick = () => {
-          charIndex += 1;
-          node.textContent = fullText.slice(0, charIndex);
-          if (charIndex < fullText.length) {
-            window.setTimeout(tick, 38);
-          } else {
-            node.classList.remove('is-typing');
-            segmentIndex += 1;
-            if (segmentIndex < segments.length) {
-              window.setTimeout(typeNextSegment, 120);
+          const tick = () => {
+            charIndex += 1;
+            node.textContent = fullText.slice(0, charIndex);
+            if (charIndex < fullText.length) {
+              window.setTimeout(tick, 38);
             } else {
-              lineIndex += 1;
-              segmentIndex = 0;
-              if (lineIndex < lineSegments.length) {
-                window.setTimeout(typeNextSegment, 180);
+              node.classList.remove('is-typing');
+              segmentIndex += 1;
+              if (segmentIndex < segments.length) {
+                window.setTimeout(typeNextSegment, 120);
+              } else {
+                lineIndex += 1;
+                segmentIndex = 0;
+                if (lineIndex < lineSegments.length) {
+                  window.setTimeout(typeNextSegment, 180);
+                }
               }
             }
-          }
-        };
+          };
 
-        tick();
+          tick();
+          return;
+        }
+
+        segmentIndex += 1;
+        if (segmentIndex < segments.length) {
+          window.setTimeout(typeNextSegment, 120);
+        } else {
+          lineIndex += 1;
+          segmentIndex = 0;
+          if (lineIndex < lineSegments.length) {
+            window.setTimeout(typeNextSegment, 180);
+          }
+        }
       };
 
       typeNextSegment();
