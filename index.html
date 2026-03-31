@@ -117,15 +117,6 @@
       opacity: 0;
       animation: fadeUp 0.9s var(--ease) 0.25s forwards;
     }
-    .hero-title-image {
-      width: min(980px, 100%);
-      display: block;
-      border-radius: 18px;
-      margin: 1.4rem auto 0;
-      box-shadow: 0 14px 36px rgba(24, 24, 24, 0.06);
-      opacity: 0;
-      animation: fadeUp 0.9s var(--ease) 0.35s forwards;
-    }
     .hero-headline em {
       font-style: normal;
       color: #ADF01D;
@@ -182,18 +173,23 @@
       text-align: center;
     }
     .hero-desc-label {
-      display: none;
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #24180a;
+      margin-bottom: 0.55rem;
     }
     .hero-desc-copy {
       display: flex;
       flex-direction: column;
-      gap: 1.15rem;
+      gap: 1.5rem;
       color: #3a2e19;
     }
     .hero-desc-body {
-      font-size: clamp(1.15rem, 1.85vw, 1.8rem);
-      line-height: 1.58;
-      letter-spacing: -0.02em;
+      font-size: clamp(1.14rem, 1.45vw, 1.38rem);
+      line-height: 1.82;
+      letter-spacing: -0.01em;
       color: #3a2e19;
       max-width: 100%;
     }
@@ -211,11 +207,28 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.9rem;
+      gap: 0.7rem;
     }
     .hero-desc-body-line {
       display: block;
       text-align: center;
+    }
+    .hero-desc-typed {
+      display: inline;
+      white-space: pre-wrap;
+    }
+    .hero-desc-typed.is-pending {
+      color: transparent;
+    }
+    .hero-desc-typed.is-typing::after {
+      content: '';
+      display: inline-block;
+      width: 0.09em;
+      height: 0.95em;
+      margin-left: 0.08em;
+      background: #24180a;
+      vertical-align: -0.08em;
+      animation: blinkCaret 0.9s steps(1) infinite;
     }
     .hero-desc-icon {
       width: 48px;
@@ -228,8 +241,45 @@
       font-weight: 700;
       color: #24180a;
     }
+    .hero-desc-highlight {
+      position: relative;
+      display: inline-block;
+      padding: 0 0.08em;
+      z-index: 0;
+    }
+    .hero-desc-highlight::before,
+    .hero-desc-highlight::after {
+      content: '';
+      position: absolute;
+      inset: -0.16em -0.24em -0.12em;
+      border: 3px solid #ADF01D;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .hero-desc-highlight::before {
+      transform: rotate(-7deg);
+      opacity: 0.95;
+    }
+    .hero-desc-highlight::after {
+      inset: -0.12em -0.2em -0.16em;
+      transform: rotate(5deg);
+      opacity: 0.55;
+    }
+    .hero-desc-highlight-fill {
+      background: #AEF11E;
+      color: #24180a;
+      padding: 0 0.18em;
+      border-radius: 0.2em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    @keyframes blinkCaret {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0; }
+    }
     .hero-desc-body:last-child {
-      margin-top: -0.4rem;
+      margin-top: -0.15rem;
     }
 
     /* Hero media */
@@ -237,7 +287,7 @@
       width: 100vw;
       margin-left: calc(50% - 50vw);
       margin-right: calc(50% - 50vw);
-      margin-top: var(--space-xxl);
+      margin-top: 0;
       aspect-ratio: 2560 / 1440;
       min-height: 0;
       border-radius: 0;
@@ -251,8 +301,7 @@
       transform-origin: center top;
     }
     .hero-demo.is-transitioning {
-      opacity: 0.28;
-      transform: scale(0.985);
+      transform: scale(0.992);
     }
     .hero-demo::after {
       content: '';
@@ -269,6 +318,39 @@
       display: block;
       aspect-ratio: 2560 / 1440;
       object-fit: contain;
+    }
+    .hero-demo-video {
+      position: relative;
+      z-index: 1;
+      opacity: 1;
+      transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-origin: center center;
+    }
+    .hero-demo-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2560 / 1440;
+      object-fit: contain;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      transform: scale(1.02);
+      transition:
+        opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .hero-demo.is-ended .hero-demo-video {
+      opacity: 0;
+      transform: scale(0.985);
+      filter: blur(8px);
+    }
+    .hero-demo.is-ended .hero-demo-image {
+      opacity: 1;
+      transform: scale(1);
     }
     .demo-bar {
       display: flex;
@@ -587,6 +669,14 @@
       max-width: none;
       object-fit: contain;
       object-position: center center;
+    }
+    .feature-visual-video {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      object-position: center center;
+      background: #f3f3f1;
     }
     .image-lightbox {
       position: fixed;
@@ -1208,24 +1298,16 @@
             <source src="hero-video-v2.mp4" type="video/mp4" />
             <source src="hero-video.mov" type="video/quicktime" />
           </video>
-        </div>
-
-        <div class="hero-inner" id="hero-title-section">
-          <h1 class="hero-headline">
-            从AI修图到AI造型室<br>重新定义<em>"变美"</em>
-          </h1>
-          <p class="hero-desc-team">团队成员：张梦、张峰源 / 黄甜、金泽舟、潘杜若蘅 / 胡荣端 Alex</p>
-          <img class="hero-title-image" src="./hero-title-image.png" alt="首页主标题展示图" />
+          <img class="hero-demo-image" src="./hero-video-end-image.png" alt="首屏结束展示图" />
         </div>
 
         <div class="hero-desc">
-          <p class="hero-desc-label">项目概述：</p>
           <div class="hero-desc-copy">
             <div class="hero-desc-body hero-desc-body-with-icon">
               <img class="hero-desc-icon" src="./hero-desc-icon.png" alt="" aria-hidden="true" />
-              <span class="hero-desc-body-line"><strong>AI造型室</strong> 围绕用户“变美”需求，重构了从修图工具到智能美学服务的体验路径。</span>
+              <span class="hero-desc-body-line"><strong>AI造型室</strong><span class="hero-desc-typed" data-text=" 围绕用户“变美”需求，重构了从修图工具到智能美学服务的体验路径。"> 围绕用户“变美”需求，重构了从修图工具到智能美学服务的体验路径。</span></span>
             </div>
-            <p class="hero-desc-body">产品从功能入口升级为可持续运行的美学工作流，围绕穿搭、妆造与个人档案形成完整链路。</p>
+            <p class="hero-desc-body"><span class="hero-desc-typed" data-text="产品从功能入口升级为可持续运行的美学工作流，围绕穿搭、妆造与个人档案形成完整链路。">产品从功能入口升级为可持续运行的美学工作流，围绕穿搭、妆造与个人档案形成完整链路。</span></p>
           </div>
         </div>
       </div>
@@ -1239,20 +1321,24 @@
         <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
             <div class="feature-step-meta">
-              <div class="section-label">01</div>
-              <div class="feature-step-line" aria-hidden="true"></div>
-            </div>
-            <h2 class="section-heading">从修图工具走向对话式美学服务</h2>
-            <p class="section-body">围绕“智能美学服务”的新定位，对原有能力进行重组，让用户不再从功能入口出发，而是从穿搭、妆造与个人风格需求自然进入完整体验。</p>
-            <a href="./styling-demo.html" class="demo-link">
-              查看详情
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
+            <div class="section-label">01</div>
+            <div class="feature-step-line" aria-hidden="true"></div>
           </div>
-          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-one-intent-driven.png" alt="AI 造型室重构模块展示图" />
+          <h2 class="section-heading">从修图工具走向对话式美学服务</h2>
+          <p class="section-body">围绕“智能美学服务”的新定位，对原有能力进行重组，让用户不再从功能入口出发，而是从穿搭、妆造与个人风格需求自然进入完整体验。</p>
+        </div>
+          <div class="feature-visual feature-visual-auto reveal reveal-delay-2">
+            <video
+              class="feature-visual-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="AI 造型室重构模块演示视频"
+            >
+              <source src="./feature-one-video.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
     </section>
@@ -1262,18 +1348,12 @@
           <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
             <div class="feature-step-meta">
-              <div class="section-label">02</div>
-              <div class="feature-step-line" aria-hidden="true"></div>
-            </div>
-            <h2 class="section-heading">审美服务升级：从单点特效到系统化造型能力</h2>
-            <p class="section-body">围绕用户“变美”需求，将滤镜与单点特效升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建AI可调用的知识体系，并输出成套造型方案，实现从“效果叠加”到“整体风格构建”的转变，让用户不仅变好看，也具备可理解、可复用的审美决策能力。</p>
-            <a href="./audit-demo.html" class="demo-link">
-              查看详情
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
+            <div class="section-label">02</div>
+            <div class="feature-step-line" aria-hidden="true"></div>
           </div>
+          <h2 class="section-heading">审美服务升级：从单点特效到系统化造型能力</h2>
+          <p class="section-body">围绕用户“变美”需求，将滤镜与单点特效升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建AI可调用的知识体系，并输出成套造型方案，实现从“效果叠加”到“整体风格构建”的转变，让用户不仅变好看，也具备可理解、可复用的审美决策能力。</p>
+        </div>
           <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
             <img class="feature-visual-image feature-visual-image-natural" src="./feature-two-knowledge-base.png" alt="审美服务升级模块展示图" />
           </div>
@@ -1285,20 +1365,24 @@
         <div class="feature-layout feature-layout-parallax">
           <div class="feature-text reveal">
             <div class="feature-step-meta">
-              <div class="section-label">03</div>
-              <div class="feature-step-line" aria-hidden="true"></div>
-            </div>
-            <h2 class="section-heading">全球化表达：从单一审美到多文化个性档案</h2>
-            <p class="section-body section-body-wide">基于不同文化语境的审美差异，构建本地化个性档案体系，将统一的AI美学能力转化为多元可理解的风格语言：国内以「金木水火土」表达气质，海外以「宝石体系」强化风格标签，帮助用户建立清晰的美学身份认知，并提升内容表达与社交传播适配性，实现从单一审美到多文化表达的升级。</p>
-            <a href="./styling-demo.html" class="demo-link">
-              查看详情
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                <path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
+            <div class="section-label">03</div>
+            <div class="feature-step-line" aria-hidden="true"></div>
           </div>
-          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-three-profile.png" alt="全球化表达模块展示图" />
+          <h2 class="section-heading">全球化表达：从单一审美到多文化个性档案</h2>
+          <p class="section-body section-body-wide">基于不同文化语境的审美差异，构建本地化个性档案体系，将统一的AI美学能力转化为多元可理解的风格语言：国内以「金木水火土」表达气质，海外以「宝石体系」强化风格标签，帮助用户建立清晰的美学身份认知，并提升内容表达与社交传播适配性，实现从单一审美到多文化表达的升级。</p>
+        </div>
+          <div class="feature-visual feature-visual-auto reveal reveal-delay-2">
+            <video
+              class="feature-visual-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="全球化表达模块演示视频"
+            >
+              <source src="./feature-three-video.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
     </section>
@@ -1318,7 +1402,7 @@
             <div class="feature-card-text">
               <div class="section-label">04</div>
               <div class="feature-card-tag">规划</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">把衣橱、偏好与场景信息整理成可调用的个人美学资产</h3>
+              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem);line-height:1.45">把衣橱、偏好与场景信息整理成可调用的个人美学资产</h3>
               <a href="./styling-demo.html" class="demo-link" style="margin-top:var(--space-md)">
                 查看详情
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1351,7 +1435,7 @@
               <div class="section-label">05</div>
               <div class="feature-card-tag">跨团队合作</div>
               <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">AI造型室懂美更懂你</h3>
-              <p class="section-body" style="font-size:0.9rem">用结构化方式管理单品、场景和风格标签，让每次推荐都能更贴近个人状态。</p>
+              <p class="section-body" style="font-size:0.9rem">协同多媒体团队，完成AI造型室TVC的创意与制作落地</p>
               <a href="#" class="demo-link" style="margin-top:var(--space-md)">
                 查看详情
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1408,10 +1492,9 @@
   <!-- ══════════ JS ══════════ -->
   <script>
     const heroVideoSection = document.getElementById('hero-video-section');
-    const heroTitleSection = document.getElementById('hero-title-section');
     const heroVideo = document.querySelector('.hero-demo-video');
-    const heroHeadline = document.querySelector('.hero-headline');
     const heroDesc = document.querySelector('.hero-desc');
+    const heroTypedNodes = Array.from(document.querySelectorAll('.hero-desc-typed'));
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('image-lightbox-image');
     const lightboxClose = document.getElementById('image-lightbox-close');
@@ -1421,20 +1504,54 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const navigationEntries = performance.getEntriesByType('navigation');
     const isHistoryRestore = navigationEntries.length > 0 && navigationEntries[0].type === 'back_forward';
-    const replayHeroIntro = () => {
-      if (prefersReducedMotion) return;
-
-      const animatedNodes = [
-        [heroHeadline, 'fadeUp 0.9s var(--ease) 0.25s forwards'],
-        [heroDesc, 'fadeUp 0.9s var(--ease) 0.45s forwards']
-      ];
-
-      animatedNodes.forEach(([node, animation]) => {
-        if (!node) return;
-        node.style.animation = 'none';
-        void node.offsetWidth;
-        node.style.animation = animation;
+    let hasTypedHeroDesc = false;
+    if (!prefersReducedMotion) {
+      heroTypedNodes.forEach((node) => {
+        node.classList.add('is-pending');
       });
+    }
+    const runHeroDescTyping = () => {
+      if (hasTypedHeroDesc || heroTypedNodes.length === 0) return;
+      hasTypedHeroDesc = true;
+
+      if (prefersReducedMotion) {
+        heroTypedNodes.forEach((node) => {
+          node.textContent = node.dataset.text || '';
+          node.classList.remove('is-pending');
+          node.classList.remove('is-typing');
+        });
+        return;
+      }
+
+      let lineIndex = 0;
+      const typeNextLine = () => {
+        const node = heroTypedNodes[lineIndex];
+        if (!node) return;
+
+        const fullText = node.dataset.text || '';
+        let charIndex = 0;
+        node.textContent = '';
+        node.classList.remove('is-pending');
+        node.classList.add('is-typing');
+
+        const tick = () => {
+          charIndex += 1;
+          node.textContent = fullText.slice(0, charIndex);
+          if (charIndex < fullText.length) {
+            window.setTimeout(tick, 38);
+          } else {
+            node.classList.remove('is-typing');
+            lineIndex += 1;
+            if (lineIndex < heroTypedNodes.length) {
+              window.setTimeout(typeNextLine, 180);
+            }
+          }
+        };
+
+        tick();
+      };
+
+      typeNextLine();
     };
     const scrollToElementWithOffset = (element, offset = 0) => {
       if (!element) return;
@@ -1459,40 +1576,57 @@
       });
     });
 
-    // ── Scroll back to title after 5 seconds of the first playback ──
-    if (heroVideo && heroTitleSection) {
-      let hasScrolledBackToTitle = false;
-      const triggerScrollBack = () => {
-        if (hasScrolledBackToTitle) return;
+    // ── Replace hero video with image after the first playback ends ──
+    if (heroVideo && heroVideoSection) {
+      let hasReplacedHeroVideo = false;
+      const finishHeroVideo = () => {
+        if (hasReplacedHeroVideo) return;
 
-        hasScrolledBackToTitle = true;
+        hasReplacedHeroVideo = true;
         heroVideoSection?.classList.add('is-transitioning');
 
         window.setTimeout(() => {
-          replayHeroIntro();
-          scrollToElementWithOffset(heroTitleSection, -96);
-        }, prefersReducedMotion ? 0 : 180);
+          scrollToElementWithOffset(heroVideoSection, 0);
+        }, prefersReducedMotion ? 0 : 120);
 
         window.setTimeout(() => {
-          heroVideo.loop = true;
-          heroVideo.currentTime = 0;
-          heroVideo.play().catch(() => {});
+          heroVideo.pause();
+          heroVideo.currentTime = Math.min(heroVideo.duration || heroVideo.currentTime, 5);
+          heroVideoSection?.classList.add('is-ended');
           heroVideoSection?.classList.remove('is-transitioning');
-        }, prefersReducedMotion ? 0 : 760);
+          if (heroDesc && !prefersReducedMotion) {
+            heroDesc.style.animation = 'none';
+            void heroDesc.offsetWidth;
+            heroDesc.style.animation = 'fadeUp 0.9s var(--ease) 0.18s forwards';
+          }
+        }, prefersReducedMotion ? 0 : 620);
       };
 
       heroVideo.addEventListener('timeupdate', () => {
-        if (hasScrolledBackToTitle) return;
+        if (hasReplacedHeroVideo) return;
         if (heroVideo.currentTime >= 5) {
-          triggerScrollBack();
+          finishHeroVideo();
         }
       });
 
       heroVideo.addEventListener('ended', () => {
-        if (!hasScrolledBackToTitle) {
-          triggerScrollBack();
+        if (!hasReplacedHeroVideo) {
+          finishHeroVideo();
         }
       });
+    }
+
+    if (heroDesc) {
+      const heroDescTypingObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            runHeroDescTyping();
+            heroDescTypingObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.35, rootMargin: '0px 0px -12% 0px' });
+
+      heroDescTypingObserver.observe(heroDesc);
     }
 
 
