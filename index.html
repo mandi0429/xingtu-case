@@ -342,9 +342,9 @@
       z-index: 1;
       opacity: 1;
       transition:
-        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.48s cubic-bezier(0.22, 1, 0.36, 1);
       transform-origin: center center;
     }
     .hero-demo-image {
@@ -358,8 +358,8 @@
       opacity: 0;
       transform: scale(1.02);
       transition:
-        opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .hero-demo-objects {
       position: absolute;
@@ -377,6 +377,20 @@
       transition:
         opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .hero-demo-watch {
+      position: absolute;
+      left: 50%;
+      bottom: 50%;
+      z-index: 3;
+      transform: translateX(-50%) translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.2s ease,
+        background 0.2s ease;
     }
     .hero-demo-object {
       position: relative;
@@ -444,8 +458,17 @@
     }
     .hero-demo.is-ended .hero-demo-video {
       opacity: 0;
-      transform: scale(0.985);
-      filter: blur(8px);
+      transform: scale(0.998);
+      filter: none;
+    }
+    .hero-demo.is-fading .hero-demo-video {
+      opacity: 0.02;
+      transform: scale(1);
+      filter: none;
+    }
+    .hero-demo.is-fading .hero-demo-image {
+      opacity: 0.28;
+      transform: scale(1.004);
     }
     .hero-demo.is-ended .hero-demo-image {
       opacity: 1;
@@ -453,6 +476,11 @@
     }
     .hero-demo.is-ended .hero-demo-objects {
       opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .hero-demo.is-ended .hero-demo-watch {
+      opacity: 1;
+      pointer-events: auto;
       transform: translateX(-50%) translateY(0);
     }
     .demo-bar {
@@ -647,6 +675,11 @@
       width: calc((100vw - 160px) * 0.7);
       padding-inline: 0;
     }
+    .feature-section > .container {
+      max-width: calc((100vw - 160px) * 0.7);
+      width: calc((100vw - 160px) * 0.7);
+      padding-inline: 0;
+    }
     .feature-steps-list {
       display: flex;
       flex-direction: column;
@@ -654,6 +687,14 @@
     }
     .feature-section {
       padding: var(--space-xxl) 0;
+    }
+    .feature-section.feature-section-fullbleed {
+      padding-inline: 0;
+    }
+    .feature-section.feature-section-fullbleed > .container {
+      max-width: 100vw;
+      width: 100vw;
+      padding-inline: 0;
     }
     .feature-step-section {
       padding: 0;
@@ -997,6 +1038,15 @@
       grid-template-columns: 1fr 1fr;
       gap: var(--space-lg);
     }
+    .feature-double > .feature-card:only-child {
+      grid-column: 1 / -1;
+      width: 100%;
+      justify-self: center;
+    }
+    .feature-double > .feature-card:only-child .feature-card-visual {
+      min-height: clamp(420px, 56vw, 760px);
+      border-bottom: none;
+    }
     .feature-card {
       background: var(--color-white);
       border: 1px solid var(--color-subtle);
@@ -1077,6 +1127,26 @@
     .feature-video-player:hover .feature-video-play {
       transform: translate(-50%, -50%) scale(1.04);
       background: rgba(18, 18, 18, 0.9);
+    }
+    .video-cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      min-width: 144px;
+      height: 46px;
+      padding: 0 1.4rem;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .video-cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(17, 17, 17, 0.18);
+      background: #1f1f1f;
     }
 
     /* Chat mockup */
@@ -1350,6 +1420,11 @@
         width: 100%;
         padding-inline: 1.5rem;
       }
+      .feature-section > .container {
+        max-width: 100%;
+        width: 100%;
+        padding-inline: 1.5rem;
+      }
       .feature-step-section {
         padding-bottom: 1.5rem;
       }
@@ -1364,6 +1439,9 @@
       .demo-sidebar { display: none; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .video-title-item .v-title { font-size: 0.85rem; }
+      .hero-demo-watch {
+        bottom: 50%;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1413,6 +1491,9 @@
             <source src="hero-video.mov" type="video/quicktime" />
           </video>
           <img class="hero-demo-image" src="./hero-video-end-image.png" alt="首屏结束展示图" />
+          <button class="video-cta-button hero-demo-watch" id="hero-demo-watch" type="button">
+            观看TVC
+          </button>
           <div class="hero-demo-objects" aria-hidden="true">
             <div class="hero-demo-object object-jeans"><img src="./hero-item-jeans.png" alt="" /></div>
             <div class="hero-demo-object object-shoe"><img src="./hero-item-shoe.png" alt="" /></div>
@@ -1479,8 +1560,18 @@
           <h2 class="section-heading">审美服务升级：从单点特效到系统化造型能力</h2>
           <p class="section-body">围绕用户“变美”需求，将滤镜与单点特效升级为覆盖穿搭、妆造与风格判断的系统化美学服务。通过沉淀设计师经验与审美规则，构建AI可调用的知识体系，并输出成套造型方案，实现从“效果叠加”到“整体风格构建”的转变，让用户不仅变好看，也具备可理解、可复用的审美决策能力。</p>
         </div>
-          <div class="feature-visual feature-visual-auto is-zoomable reveal reveal-delay-2">
-            <img class="feature-visual-image feature-visual-image-natural" src="./feature-two-knowledge-base.png" alt="审美服务升级模块展示图" />
+          <div class="feature-visual feature-visual-auto reveal reveal-delay-2">
+            <video
+              class="feature-visual-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="审美服务升级模块演示视频"
+            >
+              <source src="./feature-two-video.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
     </section>
@@ -1511,62 +1602,6 @@
           </div>
         </div>
     </section>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── FEATURE 3 & 4: Double ── -->
-    <section class="feature-section">
-      <div class="container">
-        <div class="feature-double">
-          <!-- 模块 3 -->
-          <div class="feature-card reveal">
-            <div class="feature-card-visual is-zoomable" style="padding:0;overflow:hidden;">
-              <img class="feature-visual-image" src="./feature-one-demo.png" alt="AI 造型室重构模块展示图" />
-            </div>
-            <div class="feature-card-text">
-              <div class="section-label">04</div>
-              <div class="feature-card-tag">规划</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem);line-height:1.45">把衣橱、偏好与场景信息整理成可调用的个人美学资产</h3>
-              <a href="./styling-demo.html" class="demo-link" style="margin-top:var(--space-md)">
-                查看详情
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- 模块 4 -->
-          <div class="feature-card reveal reveal-delay-2">
-            <div class="feature-card-visual" style="padding:0;overflow:hidden;">
-              <div class="feature-video-player" data-feature-video>
-                <img class="feature-video-poster" src="./module-five-video-cover.png" alt="AI造型室懂美更懂你视频封面" />
-                <button class="feature-video-play" type="button" aria-label="播放视频">
-                  <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-                    <path d="M8 5.5L20 13L8 20.5V5.5Z" fill="currentColor"/>
-                  </svg>
-                </button>
-                <video
-                  class="feature-video"
-                  preload="metadata"
-                  controls
-                  playsinline
-                  poster="./module-five-video-cover.png"
-                >
-                  <source src="./module-five-video.mp4" type="video/mp4" />
-                </video>
-              </div>
-            </div>
-            <div class="feature-card-text">
-              <div class="section-label">05</div>
-              <div class="feature-card-tag">跨团队合作</div>
-              <h3 class="section-heading" style="font-size:clamp(1.2rem,2.5vw,1.7rem)">AI造型室懂美更懂你</h3>
-              <p class="section-body" style="font-size:0.9rem">协同多媒体团队，完成AI造型室TVC的创意与制作落地</p>
-              <a href="#" class="demo-link" style="margin-top:var(--space-md)">
-                查看详情
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -1745,10 +1780,17 @@
     // ── Replace hero video with image after the first playback ends ──
     if (heroVideo && heroVideoSection) {
       let hasReplacedHeroVideo = false;
+      let hasStartedHeroFade = false;
+      const startHeroFade = () => {
+        if (hasStartedHeroFade || hasReplacedHeroVideo) return;
+        hasStartedHeroFade = true;
+        heroVideoSection?.classList.add('is-fading');
+      };
       const finishHeroVideo = () => {
         if (hasReplacedHeroVideo) return;
 
         hasReplacedHeroVideo = true;
+        startHeroFade();
         heroVideoSection?.classList.add('is-transitioning');
 
         window.setTimeout(() => {
@@ -1759,17 +1801,21 @@
           heroVideo.pause();
           heroVideo.currentTime = Math.min(heroVideo.duration || heroVideo.currentTime, 5);
           heroVideoSection?.classList.add('is-ended');
+          heroVideoSection?.classList.remove('is-fading');
           heroVideoSection?.classList.remove('is-transitioning');
           if (heroDesc && !prefersReducedMotion) {
             heroDesc.style.animation = 'none';
             void heroDesc.offsetWidth;
             heroDesc.style.animation = 'fadeUp 0.9s var(--ease) 0.18s forwards';
           }
-        }, prefersReducedMotion ? 0 : 620);
+        }, prefersReducedMotion ? 0 : 220);
       };
 
       heroVideo.addEventListener('timeupdate', () => {
         if (hasReplacedHeroVideo) return;
+        if (heroVideo.currentTime >= 4.75) {
+          startHeroFade();
+        }
         if (heroVideo.currentTime >= 5) {
           finishHeroVideo();
         }
@@ -1846,27 +1892,8 @@
       image.addEventListener('click', () => openLightbox(image));
     });
 
-    // ── Inline video card for module five ──
-    const featureVideoPlayers = Array.from(document.querySelectorAll('[data-feature-video]'));
-    featureVideoPlayers.forEach((player) => {
-      const video = player.querySelector('.feature-video');
-      const playButton = player.querySelector('.feature-video-play');
-
-      const startPlayback = () => {
-        if (!video) return;
-        player.classList.add('is-playing');
-        video.play().catch(() => {});
-      };
-
-      playButton?.addEventListener('click', (event) => {
-        event.stopPropagation();
-        openVideoLightbox();
-      });
-
-      player.addEventListener('click', () => {
-        openVideoLightbox();
-      });
-    });
+    const heroDemoWatchButton = document.getElementById('hero-demo-watch');
+    heroDemoWatchButton?.addEventListener('click', openVideoLightbox);
 
     // ── Scroll stacking for the first three modules ──
     const stackSections = Array.from(document.querySelectorAll('.feature-step-section'));
